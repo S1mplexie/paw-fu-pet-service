@@ -28,7 +28,7 @@
             </el-link>
             <el-dropdown @command="handleCommand">
               <span class="el-dropdown-link">
-                <el-avatar :size="32" icon="el-icon-user-solid"></el-avatar>
+                <el-avatar :size="32" :src="user.avatar" icon="el-icon-user-solid"></el-avatar>
                 <span class="username">{{ user.username }}</span>
                 <i class="el-icon-arrow-down"></i>
               </span>

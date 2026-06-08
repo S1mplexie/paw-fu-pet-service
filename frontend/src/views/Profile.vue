@@ -175,9 +175,19 @@ export default {
               email: this.form.email || null,
               avatar: this.form.avatar || null
             }
-            await updateUserInfo(data)
+            const res = await updateUserInfo(data)
             this.$message.success('修改成功')
-            this.loadUserInfo()
+            
+            const updatedUser = res.data
+            this.user = updatedUser
+            this.form = {
+              nickname: updatedUser.nickname,
+              phone: updatedUser.phone || '',
+              email: updatedUser.email || '',
+              avatar: updatedUser.avatar || ''
+            }
+            
+            this.$store.commit('SET_USER', updatedUser)
           } catch (error) {
             console.error(error)
           } finally {
