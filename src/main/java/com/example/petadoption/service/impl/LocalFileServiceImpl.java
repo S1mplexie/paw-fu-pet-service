@@ -60,16 +60,20 @@ public class LocalFileServiceImpl implements FileService {
             String fileName = IdUtil.fastSimpleUUID() + "." + extension;
 
             String relativePath = type + "/" + datePath + "/" + fileName;
-            String fullPath = uploadPath + "/" + relativePath;
-
-            File destFile = new File(fullPath);
+            
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.isAbsolute()) {
+                uploadDir = new File(System.getProperty("user.dir"), uploadPath);
+            }
+            
+            File destFile = new File(uploadDir, relativePath);
             if (!destFile.getParentFile().exists()) {
                 boolean created = destFile.getParentFile().mkdirs();
                 log.info("创建目录: {}, 结果: {}", destFile.getParentFile().getAbsolutePath(), created);
             }
 
-            file.transferTo(destFile);
-            log.info("文件上传成功: {}", fullPath);
+            file.transferTo(destFile.getAbsoluteFile());
+            log.info("文件上传成功: {}", destFile.getAbsolutePath());
             
             String url = urlPrefix + "/" + relativePath;
             log.info("返回URL: {}", url);
@@ -90,12 +94,16 @@ public class LocalFileServiceImpl implements FileService {
         }
 
         String relativePath = fileUrl.substring(urlPrefix.length() + 1);
-        String fullPath = uploadPath + "/" + relativePath;
-
-        File file = new File(fullPath);
+        
+        File uploadDir = new File(uploadPath);
+        if (!uploadDir.isAbsolute()) {
+            uploadDir = new File(System.getProperty("user.dir"), uploadPath);
+        }
+        
+        File file = new File(uploadDir, relativePath);
         if (file.exists()) {
             file.delete();
-            log.info("文件删除成功: {}", fullPath);
+            log.info("文件删除成功: {}", file.getAbsolutePath());
         }
     }
 }
