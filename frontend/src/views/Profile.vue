@@ -18,12 +18,13 @@
           <el-card class="user-card" shadow="hover">
             <div class="user-avatar">
               <image-upload v-model="form.avatar" type="avatars" placeholder="上传头像"></image-upload>
+            </div>
+            <div class="avatar-action" style="text-align: center; margin: 15px 0;">
               <el-button 
                 type="primary" 
                 size="small" 
                 @click="handleAvatarUpdate" 
                 :loading="avatarLoading"
-                style="margin-top: 15px"
                 :disabled="form.avatar === user.avatar">
                 <i class="el-icon-check"></i> 保存头像
               </el-button>
