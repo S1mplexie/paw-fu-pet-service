@@ -18,6 +18,15 @@
           <el-card class="user-card" shadow="hover">
             <div class="user-avatar">
               <image-upload v-model="form.avatar" type="avatars" placeholder="上传头像"></image-upload>
+              <el-button 
+                type="primary" 
+                size="small" 
+                @click="handleAvatarUpdate" 
+                :loading="avatarLoading"
+                style="margin-top: 15px"
+                :disabled="form.avatar === user.avatar">
+                <i class="el-icon-check"></i> 保存头像
+              </el-button>
             </div>
             <div class="user-info">
               <h3>{{ user.username }}</h3>
@@ -70,8 +79,8 @@
               </el-form-item>
               
               <el-form-item>
-                <el-button type="primary" @click="handleUpdate" :loading="loading">
-                  <i class="el-icon-check"></i> 保存修改
+                <el-button type="primary" @click="handleInfoUpdate" :loading="infoLoading">
+                  <i class="el-icon-check"></i> 保存信息
                 </el-button>
                 <el-button @click="resetForm">
                   <i class="el-icon-refresh"></i> 重置
@@ -133,7 +142,8 @@ export default {
           { pattern: /^$|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, message: '邮箱格式错误', trigger: 'blur' }
         ]
       },
-      loading: false
+      avatarLoading: false,
+      infoLoading: false
     }
   },
   mounted() {
@@ -164,19 +174,40 @@ export default {
         console.error(error)
       }
     },
-    handleUpdate() {
+    async handleAvatarUpdate() {
+      if (!this.form.avatar) {
+        this.$message.warning('请先上传头像')
+        return
+      }
+      
+      this.avatarLoading = true
+      try {
+        const data = { avatar: this.form.avatar }
+        const res = await updateUserInfo(data)
+        this.$message.success('头像保存成功')
+        
+        const updatedUser = res.data
+        this.user = updatedUser
+        this.$store.commit('SET_USER', updatedUser)
+      } catch (error) {
+        console.error(error)
+        this.$message.error('头像保存失败')
+      } finally {
+        this.avatarLoading = false
+      }
+    },
+    handleInfoUpdate() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
-          this.loading = true
+          this.infoLoading = true
           try {
             const data = {
               nickname: this.form.nickname,
               phone: this.form.phone || null,
-              email: this.form.email || null,
-              avatar: this.form.avatar || null
+              email: this.form.email || null
             }
             const res = await updateUserInfo(data)
-            this.$message.success('修改成功')
+            this.$message.success('信息保存成功')
             
             const updatedUser = res.data
             this.user = updatedUser
@@ -190,8 +221,9 @@ export default {
             this.$store.commit('SET_USER', updatedUser)
           } catch (error) {
             console.error(error)
+            this.$message.error('信息保存失败')
           } finally {
-            this.loading = false
+            this.infoLoading = false
           }
         }
       })
