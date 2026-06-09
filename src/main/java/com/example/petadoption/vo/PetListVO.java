@@ -38,6 +38,10 @@ public class PetListVO implements Serializable {
 
     private String photoUrl;
 
+    private String coverPhotoUrl;
+
+    private String photoUrls;
+
     private String province;
 
     private String city;

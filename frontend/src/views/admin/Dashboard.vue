@@ -34,7 +34,7 @@
               <i class="el-icon-time"></i>
             </div>
             <div class="stat-info">
-              <div class="stat-value">{{ stats.waitingPets || 0 }}</div>
+              <div class="stat-value">{{ stats.waitingForAdoption || 0 }}</div>
               <div class="stat-label">待领养数量</div>
             </div>
           </div>
@@ -47,7 +47,7 @@
               <i class="el-icon-check"></i>
             </div>
             <div class="stat-info">
-              <div class="stat-value">{{ stats.adoptedPets || 0 }}</div>
+              <div class="stat-value">{{ stats.adopted || 0 }}</div>
               <div class="stat-label">已领养数量</div>
             </div>
           </div>

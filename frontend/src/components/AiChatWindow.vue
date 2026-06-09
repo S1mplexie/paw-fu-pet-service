@@ -18,7 +18,7 @@
     <div class="chat-messages" ref="messagesContainer">
       <div class="welcome-message" v-if="messages.length === 0">
         <i class="el-icon-service"></i>
-        <p>你好！我是Paw福宠物服务平台的AI助手</p>
+        <p class="pawfu-title">你好！我是Paw福宠物服务平台的AI助手</p>
         <p>我可以帮你解答宠物养护、健康、训练等问题</p>
       </div>
       

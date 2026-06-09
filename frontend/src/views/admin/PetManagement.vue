@@ -129,7 +129,7 @@ export default {
           status: this.statusFilter,
           category: this.categoryFilter
         })
-        this.petList = res.data.list || []
+        this.petList = res.data.records || res.data.list || []
         this.total = res.data.total || 0
       } catch (error) {
         console.error(error)

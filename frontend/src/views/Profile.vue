@@ -5,7 +5,7 @@
       <div class="container">
         <div class="logo-section">
           <paw-icon :size="36" class="logo-icon"></paw-icon>
-          <h1 class="logo">Paw福宠物服务平台</h1>
+          <h1 class="logo pawfu-title">Paw福宠物服务平台</h1>
         </div>
         <el-button icon="el-icon-arrow-left" @click="$router.push('/')">返回首页</el-button>
       </div>

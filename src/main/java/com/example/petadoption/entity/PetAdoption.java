@@ -47,6 +47,9 @@ public class PetAdoption implements Serializable {
     @TableField("photo_urls")
     private String photoUrls;
 
+    @TableField("cover_photo_url")
+    private String coverPhotoUrl;
+
     private String province;
 
     private String city;

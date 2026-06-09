@@ -11,6 +11,8 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
 #app {
   font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -26,5 +28,11 @@ export default {
 
 body {
   background-color: #f5f5f5;
+}
+
+.pawfu-title {
+  font-family: 'ZCOOL KuaiLe', 'Comic Sans MS', 'YouYuan', 'Microsoft YaHei', cursive, sans-serif;
+  font-weight: 600;
+  letter-spacing: 2px;
 }
 </style>

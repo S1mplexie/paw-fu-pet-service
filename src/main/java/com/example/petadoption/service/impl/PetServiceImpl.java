@@ -92,7 +92,19 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
         }
         
         pet.setDescription(dto.getDescription());
-        pet.setPhotoUrls(dto.getPhotoUrl());
+        
+        if (StrUtil.isNotBlank(dto.getCoverPhotoUrl())) {
+            pet.setCoverPhotoUrl(dto.getCoverPhotoUrl());
+        } else if (StrUtil.isNotBlank(dto.getPhotoUrl())) {
+            pet.setCoverPhotoUrl(dto.getPhotoUrl());
+        }
+        
+        if (StrUtil.isNotBlank(dto.getPhotoUrls())) {
+            pet.setPhotoUrls(dto.getPhotoUrls());
+        } else if (StrUtil.isNotBlank(dto.getPhotoUrl())) {
+            pet.setPhotoUrls(dto.getPhotoUrl());
+        }
+        
         pet.setProvince(dto.getProvince());
         pet.setCity(dto.getCity());
         pet.setDistrict(dto.getDistrict());
@@ -139,7 +151,19 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
         }
         
         pet.setDescription(dto.getDescription());
-        pet.setPhotoUrls(dto.getPhotoUrl());
+        
+        if (StrUtil.isNotBlank(dto.getCoverPhotoUrl())) {
+            pet.setCoverPhotoUrl(dto.getCoverPhotoUrl());
+        } else if (StrUtil.isNotBlank(dto.getPhotoUrl())) {
+            pet.setCoverPhotoUrl(dto.getPhotoUrl());
+        }
+        
+        if (StrUtil.isNotBlank(dto.getPhotoUrls())) {
+            pet.setPhotoUrls(dto.getPhotoUrls());
+        } else if (StrUtil.isNotBlank(dto.getPhotoUrl())) {
+            pet.setPhotoUrls(dto.getPhotoUrl());
+        }
+        
         pet.setProvince(dto.getProvince());
         pet.setCity(dto.getCity());
         pet.setDistrict(dto.getDistrict());
@@ -243,8 +267,25 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
         String[] statusNames = {"", "健康", "已绝育", "已免疫", "有特殊护理需求", "其他"};
         vo.setPetStatusName(pet.getPetStatus() < statusNames.length ? statusNames[pet.getPetStatus()] : "其他");
         
-        if (StrUtil.isNotBlank(pet.getPhotoUrls())) {
-            vo.setPhotoUrl(pet.getPhotoUrls().split(",")[0]);
+        if (StrUtil.isNotBlank(pet.getCoverPhotoUrl())) {
+            vo.setPhotoUrl(pet.getCoverPhotoUrl());
+        } else if (StrUtil.isNotBlank(pet.getPhotoUrls())) {
+            if (pet.getPhotoUrls().startsWith("[")) {
+                try {
+                    String urls = pet.getPhotoUrls().replace("[", "").replace("]", "").replace("\"", "");
+                    String[] urlArray = urls.split(",");
+                    if (urlArray.length > 0 && StrUtil.isNotBlank(urlArray[0].trim())) {
+                        vo.setPhotoUrl(urlArray[0].trim());
+                    }
+                } catch (Exception e) {
+                    log.warn("解析图片集JSON失败: {}", pet.getPhotoUrls());
+                }
+            } else {
+                String[] urlArray = pet.getPhotoUrls().split(",");
+                if (urlArray.length > 0) {
+                    vo.setPhotoUrl(urlArray[0].trim());
+                }
+            }
         }
         
         return vo;

@@ -2,7 +2,8 @@
   <el-container class="admin-layout">
     <el-aside width="220px" class="admin-aside">
       <div class="logo">
-        <h2>🐾 宠物平台管理</h2>
+        <img src="@/assets/images/paw.png" class="logo-icon" alt="Paw福">
+        <h2 class="pawfu-title">Paw福宠物平台管理</h2>
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -68,7 +69,7 @@ export default {
           await adminLogout()
           this.$store.dispatch('adminLogout')
           this.$message.success('退出成功')
-          this.$router.push('/admin/login')
+          this.$router.push('/login')
         } catch (error) {
           console.error(error)
         }
@@ -96,11 +97,19 @@ export default {
   color: #fff;
   font-size: 18px;
   font-weight: bold;
+  padding: 0 10px;
+}
+
+.logo-icon {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
 }
 
 .logo h2 {
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
+  white-space: nowrap;
 }
 
 .admin-menu {

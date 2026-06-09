@@ -32,6 +32,10 @@ public class PetPublishDTO {
 
     private String photoUrl;
 
+    private String coverPhotoUrl;
+
+    private String photoUrls;
+
     private String province;
 
     private String city;

@@ -2,7 +2,7 @@
   <div class="publish-page">
     <div class="header">
       <div class="container">
-        <h1 class="logo"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - {{ isEdit ? '修改领养信息' : '发布领养信息' }}</h1>
+        <h1 class="logo pawfu-title"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - {{ isEdit ? '修改领养信息' : '发布领养信息' }}</h1>
         <router-link to="/" class="back-btn">返回首页</router-link>
       </div>
     </div>
@@ -10,8 +10,13 @@
     <div class="container">
       <el-card class="publish-card">
         <el-form :model="form" :rules="rules" ref="form" label-width="120px">
-          <el-form-item label="宠物照片">
-            <image-upload v-model="form.photoUrl" type="pets" placeholder="上传宠物照片"></image-upload>
+          <el-form-item label="封面照片">
+            <image-upload v-model="form.coverPhotoUrl" type="pets" placeholder="上传封面照片"></image-upload>
+            <div class="upload-tip">封面照片将作为主页展示图片</div>
+          </el-form-item>
+          
+          <el-form-item label="图片集">
+            <multi-image-upload v-model="form.photoUrls" type="pets" :max-count="9" :max-size="5"></multi-image-upload>
           </el-form-item>
           
           <el-form-item label="宠物名称" prop="petName">
@@ -94,6 +99,7 @@
 import { publishPet, updatePet, getPetDetail } from '@/api/pet'
 import PawIcon from '@/components/PawIcon.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import MultiImageUpload from '@/components/MultiImageUpload.vue'
 import ProvinceCitySelector from '@/components/ProvinceCitySelector.vue'
 
 export default {
@@ -101,6 +107,7 @@ export default {
   components: {
     PawIcon,
     ImageUpload,
+    MultiImageUpload,
     ProvinceCitySelector
   },
   data() {
@@ -113,7 +120,8 @@ export default {
         gender: 0,
         color: '',
         description: '',
-        photoUrl: '',
+        coverPhotoUrl: '',
+        photoUrls: '',
         province: '',
         city: '',
         contactName: '',
@@ -152,7 +160,8 @@ export default {
           gender: pet.gender || 0,
           color: pet.color || '',
           description: pet.description || '',
-          photoUrl: pet.photoUrl || '',
+          coverPhotoUrl: pet.coverPhotoUrl || '',
+          photoUrls: pet.photoUrls || '',
           province: pet.province || '',
           city: pet.city || '',
           contactName: pet.contactName,
@@ -225,5 +234,11 @@ export default {
 
 .publish-card {
   margin: 30px auto;
+}
+
+.upload-tip {
+  font-size: 12px;
+  color: #909399;
+  margin-top: 5px;
 }
 </style>

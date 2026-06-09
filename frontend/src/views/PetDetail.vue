@@ -5,7 +5,7 @@
       <div class="container">
         <div class="logo-section">
           <paw-icon :size="36" class="logo-icon"></paw-icon>
-          <h1 class="logo">Paw福宠物服务平台</h1>
+          <h1 class="logo pawfu-title">Paw福宠物服务平台</h1>
         </div>
         <el-button icon="el-icon-arrow-left" @click="$router.back()">返回</el-button>
       </div>
@@ -16,8 +16,11 @@
         <div class="detail-content">
           <!-- 左侧图片 -->
           <div class="pet-gallery">
-            <div class="main-image" v-if="pet.photoUrl">
-              <img :src="pet.photoUrl" :alt="pet.petName">
+            <div class="main-image" v-if="mainImage">
+              <img :src="mainImage" :alt="pet.petName" @click="openGallery(0)">
+              <div class="image-overlay">
+                <i class="el-icon-zoom-in"></i>
+              </div>
             </div>
             <div class="no-image-placeholder" v-else>
               <div class="no-image-text">
@@ -25,9 +28,25 @@
                 <span>图片</span>
               </div>
             </div>
-            <div class="image-placeholder" v-if="pet.photoUrl">
+            
+            <div class="thumbnail-list" v-if="galleryImages.length > 1">
+              <div
+                v-for="(image, index) in galleryImages.slice(0, 5)"
+                :key="index"
+                class="thumbnail-item"
+                :class="{ active: index === 0 }"
+                @click="openGallery(index)"
+              >
+                <img :src="image" :alt="'缩略图' + (index + 1)">
+              </div>
+              <div class="more-btn" v-if="galleryImages.length > 5" @click="openGallery(0)">
+                <span>+{{ galleryImages.length - 5 }}</span>
+              </div>
+            </div>
+            
+            <div class="gallery-tip" v-if="galleryImages.length > 1">
               <i class="el-icon-picture"></i>
-              <span>更多照片</span>
+              <span>点击查看{{ galleryImages.length }}张图片</span>
             </div>
           </div>
           
@@ -115,6 +134,13 @@
       <!-- 加载状态 -->
       <el-empty v-else description="加载中..." :image-size="200"></el-empty>
     </div>
+    
+    <image-gallery-viewer
+      :visible.sync="galleryVisible"
+      :images="galleryImages"
+      :initial-index="galleryIndex"
+      @close="galleryVisible = false"
+    ></image-gallery-viewer>
   </div>
 </template>
 
@@ -122,21 +148,51 @@
 import { getPetDetail } from '@/api/pet'
 import { formatFullTime } from '@/utils/timeUtil'
 import PawIcon from '@/components/PawIcon.vue'
+import ImageGalleryViewer from '@/components/ImageGalleryViewer.vue'
 
 export default {
   name: 'PetDetail',
   components: {
-    PawIcon
+    PawIcon,
+    ImageGalleryViewer
   },
   data() {
     return {
       pet: null,
-      defaultImage: 'https://images.unsplash.com/photo-1587300003381-16d9e0e4c6e8?w=600&h=400&fit=crop'
+      defaultImage: 'https://images.unsplash.com/photo-1587300003381-16d9e0e4c6e8?w=600&h=400&fit=crop',
+      galleryVisible: false,
+      galleryIndex: 0
     }
   },
   computed: {
     isLoggedIn() {
       return this.$store.getters.isLoggedIn
+    },
+    galleryImages() {
+      if (!this.pet) return []
+      
+      let images = []
+      
+      if (this.pet.photoUrls) {
+        if (this.pet.photoUrls.startsWith('[')) {
+          try {
+            const parsed = JSON.parse(this.pet.photoUrls)
+            images = Array.isArray(parsed) ? parsed : []
+          } catch (e) {
+            console.error('解析图片集失败:', e)
+          }
+        } else {
+          images = this.pet.photoUrls.split(',').filter(url => url.trim())
+        }
+      }
+      
+      return images
+    },
+    mainImage() {
+      if (this.pet && this.pet.coverPhotoUrl) {
+        return this.pet.coverPhotoUrl
+      }
+      return this.galleryImages.length > 0 ? this.galleryImages[0] : null
     }
   },
   mounted() {
@@ -173,6 +229,10 @@ export default {
     },
     formatCreateTime(time) {
       return formatFullTime(time)
+    },
+    openGallery(index) {
+      this.galleryIndex = index
+      this.galleryVisible = true
     }
   }
 }
@@ -237,16 +297,112 @@ export default {
 }
 
 .main-image {
+  position: relative;
   width: 100%;
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .main-image img {
   width: 100%;
   height: 400px;
   object-fit: cover;
+  display: block;
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.image-overlay i {
+  font-size: 48px;
+  color: white;
+}
+
+.main-image:hover .image-overlay {
+  opacity: 1;
+}
+
+.thumbnail-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.thumbnail-item {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.thumbnail-item:hover {
+  border-color: #667eea;
+}
+
+.thumbnail-item.active {
+  border-color: #667eea;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.more-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  background: #f5f7fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.more-btn:hover {
+  background: #e9ecef;
+}
+
+.gallery-tip {
+  margin-top: 15px;
+  padding: 12px;
+  background: #f5f7fa;
+  border-radius: 8px;
+  text-align: center;
+  color: #606266;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.gallery-tip:hover {
+  background: #e9ecef;
+}
+
+.gallery-tip i {
+  margin-right: 8px;
+  color: #667eea;
 }
 
 .image-placeholder {

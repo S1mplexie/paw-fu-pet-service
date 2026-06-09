@@ -2,7 +2,7 @@
   <div class="my-pets-page">
     <div class="header">
       <div class="container">
-        <h1 class="logo"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - 我的发布</h1>
+        <h1 class="logo pawfu-title"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - 我的发布</h1>
         <router-link to="/" class="back-btn">返回首页</router-link>
       </div>
     </div>

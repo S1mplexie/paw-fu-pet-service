@@ -113,7 +113,7 @@ export default {
           keyword: this.searchKeyword,
           status: this.statusFilter
         })
-        this.userList = res.data.list || []
+        this.userList = res.data.records || res.data.list || []
         this.total = res.data.total || 0
       } catch (error) {
         console.error(error)

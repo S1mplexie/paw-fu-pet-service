@@ -5,7 +5,7 @@
       <div class="container">
         <div class="logo-section">
           <paw-icon :size="36" class="logo-icon"></paw-icon>
-          <h1 class="logo">Paw福宠物服务平台</h1>
+          <h1 class="logo pawfu-title">Paw福宠物服务平台</h1>
         </div>
         <div class="nav">
           <el-link :underline="false" class="nav-link" @click="$router.push('/')">
@@ -246,7 +246,7 @@ export default {
     logout() {
       this.$store.dispatch('logout')
       this.$message.success('退出成功')
-      this.$router.push('/')
+      this.$router.push('/login')
     },
     getCategoryName(id) {
       const map = { 1: '犬类', 2: '猫类', 3: '鸟类', 4: '兔类', 5: '仓鼠', 6: '其他' }

@@ -6,7 +6,7 @@
         <div class="banner-content">
           <paw-icon :size="80" class="banner-icon"></paw-icon>
           <h2>加入我们</h2>
-          <p>Paw福宠物服务平台</p>
+          <p class="pawfu-title">Paw福宠物服务平台</p>
         </div>
       </div>
       
