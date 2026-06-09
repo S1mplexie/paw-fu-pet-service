@@ -19,6 +19,9 @@ public class UserRegisterDTO {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,20}$", message = "密码格式错误，需8-20位且包含数字和字母")
     private String password;
 
+    @NotBlank(message = "确认密码不能为空")
+    private String confirmPassword;
+
     @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式错误")
     private String phone;
 

@@ -16,10 +16,16 @@
         <div class="detail-content">
           <!-- 左侧图片 -->
           <div class="pet-gallery">
-            <div class="main-image">
-              <img :src="pet.photoUrl || defaultImage" :alt="pet.petName">
+            <div class="main-image" v-if="pet.photoUrl">
+              <img :src="pet.photoUrl" :alt="pet.petName">
             </div>
-            <div class="image-placeholder">
+            <div class="no-image-placeholder" v-else>
+              <div class="no-image-text">
+                <span>暂无</span>
+                <span>图片</span>
+              </div>
+            </div>
+            <div class="image-placeholder" v-if="pet.photoUrl">
               <i class="el-icon-picture"></i>
               <span>更多照片</span>
             </div>
@@ -69,6 +75,13 @@
               <p class="description">{{ pet.description || '暂无描述' }}</p>
             </div>
             
+            <!-- 发布时间 -->
+            <div class="info-section">
+              <h4><i class="el-icon-time"></i> 发布时间</h4>
+              <p class="create-time">{{ formatCreateTime(pet.createTime) }}</p>
+              <p class="view-count"><i class="el-icon-view"></i> 浏览量：{{ pet.viewCount || 0 }}</p>
+            </div>
+            
             <el-divider></el-divider>
             
             <!-- 联系方式 -->
@@ -107,6 +120,7 @@
 
 <script>
 import { getPetDetail } from '@/api/pet'
+import { formatFullTime } from '@/utils/timeUtil'
 import PawIcon from '@/components/PawIcon.vue'
 
 export default {
@@ -156,6 +170,9 @@ export default {
     getGenderName(gender) {
       const map = { 1: '公 ♂', 2: '母 ♀', 0: '未知' }
       return map[gender] || '未知'
+    },
+    formatCreateTime(time) {
+      return formatFullTime(time)
     }
   }
 }
@@ -252,6 +269,31 @@ export default {
   margin-right: 8px;
 }
 
+.no-image-placeholder {
+  width: 100%;
+  height: 400px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.no-image-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.no-image-text span {
+  font-size: 48px;
+  font-weight: 300;
+  color: #909399;
+  letter-spacing: 8px;
+}
+
 .pet-info {
   padding: 10px 0;
 }
@@ -305,6 +347,24 @@ export default {
   padding: 15px;
   background: #f5f7fa;
   border-radius: 8px;
+}
+
+.create-time {
+  font-size: 15px;
+  color: #606266;
+  margin: 0;
+  padding: 10px 15px;
+  background: #f5f7fa;
+  border-radius: 8px;
+}
+
+.view-count {
+  font-size: 14px;
+  color: #909399;
+  margin: 10px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .contact-section {

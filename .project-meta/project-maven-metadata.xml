@@ -580,27 +580,6 @@
       </dependency>
     </dependency>
     <dependency>
-      <coordinate>com.alibaba:druid-spring-boot-starter:jar:1.2.8</coordinate>
-      <filePath>C:/Users/31339/.m2/repository/com/alibaba/druid-spring-boot-starter/1.2.8/druid-spring-boot-starter-1.2.8.jar</filePath>
-      <isInternal>false</isInternal>
-      <dependency>
-        <coordinate>com.alibaba:druid:jar:1.2.8</coordinate>
-        <filePath>C:/Users/31339/.m2/repository/com/alibaba/druid/1.2.8/druid-1.2.8.jar</filePath>
-        <isInternal>false</isInternal>
-      </dependency>
-      <dependency>
-        <coordinate>org.slf4j:slf4j-api:jar:1.7.30</coordinate>
-        <filePath>C:/Users/31339/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</filePath>
-        <isInternal>false</isInternal>
-      </dependency>
-      <dependency>
-        <coordinate>org.springframework.boot:spring-boot-autoconfigure:jar:2.3.12.RELEASE</coordinate>
-        <filePath>C:/Users/31339/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/2.3.12.RELEASE/spring-boot-autoconfigure-2.3.12.RELEASE.jar</filePath>
-        <isInternal>false</isInternal>
-        <relatedDependencyVersion>2.3.12.RELEASE</relatedDependencyVersion>
-      </dependency>
-    </dependency>
-    <dependency>
       <coordinate>mysql:mysql-connector-java:jar:8.0.25</coordinate>
       <scope>runtime</scope>
       <filePath>C:/Users/31339/.m2/repository/mysql/mysql-connector-java/8.0.25/mysql-connector-java-8.0.25.jar</filePath>
@@ -787,7 +766,6 @@
           <coordinate>org.slf4j:slf4j-api:jar:1.7.30</coordinate>
           <filePath>C:/Users/31339/.m2/repository/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</filePath>
           <isInternal>false</isInternal>
-          <relatedDependencyVersion>1.7.30</relatedDependencyVersion>
         </dependency>
       </dependency>
       <dependency>

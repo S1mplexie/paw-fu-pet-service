@@ -26,7 +26,7 @@ const routes = [
     component: () => import('../views/PetDetail.vue')
   },
   {
-    path: '/publish',
+    path: '/publish/:id?',
     name: 'Publish',
     component: () => import('../views/Publish.vue'),
     meta: { requiresAuth: true }

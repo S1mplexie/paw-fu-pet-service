@@ -23,7 +23,9 @@
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button size="small" @click="viewDetail(scope.row.petId)">查看</el-button>
+              <el-button size="small" type="primary" @click="handleEdit(scope.row.petId)" v-if="scope.row.adoptionStatus !== 2">修改</el-button>
               <el-button size="small" type="warning" @click="handleOffline(scope.row.petId)" v-if="scope.row.adoptionStatus === 1">下架</el-button>
+              <el-button size="small" type="success" @click="handleOnline(scope.row.petId)" v-if="scope.row.adoptionStatus === 3">上架</el-button>
               <el-button size="small" type="danger" @click="handleDelete(scope.row.petId)">删除</el-button>
             </template>
           </el-table-column>
@@ -34,7 +36,7 @@
 </template>
 
 <script>
-import { getMyPets, offlinePet, deletePet } from '@/api/pet'
+import { getMyPets, offlinePet, onlinePet, deletePet } from '@/api/pet'
 import PawIcon from '@/components/PawIcon.vue'
 
 export default {
@@ -62,6 +64,9 @@ export default {
     viewDetail(id) {
       this.$router.push(`/pet/${id}`)
     },
+    handleEdit(id) {
+      this.$router.push(`/publish/${id}`)
+    },
     async handleOffline(id) {
       try {
         await this.$confirm('确定下架该领养信息？', '提示', {
@@ -69,6 +74,20 @@ export default {
         })
         await offlinePet(id)
         this.$message.success('下架成功')
+        this.loadMyPets()
+      } catch (error) {
+        if (error !== 'cancel') {
+          console.error(error)
+        }
+      }
+    },
+    async handleOnline(id) {
+      try {
+        await this.$confirm('确定上架该领养信息？', '提示', {
+          type: 'warning'
+        })
+        await onlinePet(id)
+        this.$message.success('上架成功')
         this.loadMyPets()
       } catch (error) {
         if (error !== 'cancel') {

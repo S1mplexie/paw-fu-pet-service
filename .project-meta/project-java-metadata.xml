@@ -106,20 +106,6 @@
         <subDependency>org.springframework.boot:spring-boot-starter-jdbc:2.3.12.RELEASE</subDependency>
       </dependency>
       <dependency>
-        <group>com.alibaba</group>
-        <name>druid-spring-boot-starter</name>
-        <version>1.2.8</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/com/alibaba/druid-spring-boot-starter/1.2.8/druid-spring-boot-starter-1.2.8.jar</absolutePath>
-        <targetId>com.alibaba:druid-spring-boot-starter:1.2.8</targetId>
-        <scopes>COMPILE,RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>false</transitive>
-        <implicit>false</implicit>
-        <subDependency>com.alibaba:druid:1.2.8</subDependency>
-        <subDependency>org.slf4j:slf4j-api:1.7.30</subDependency>
-        <subDependency>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</subDependency>
-      </dependency>
-      <dependency>
         <group>mysql</group>
         <name>mysql-connector-java</name>
         <version>8.0.25</version>
@@ -466,39 +452,6 @@
         <subDependency>org.springframework:spring-jdbc:5.2.15.RELEASE</subDependency>
       </dependency>
       <dependency>
-        <group>com.alibaba</group>
-        <name>druid</name>
-        <version>1.2.8</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/com/alibaba/druid/1.2.8/druid-1.2.8.jar</absolutePath>
-        <targetId>com.alibaba:druid:1.2.8</targetId>
-        <scopes>COMPILE,RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
-        <group>org.slf4j</group>
-        <name>slf4j-api</name>
-        <version>1.7.30</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</absolutePath>
-        <targetId>org.slf4j:slf4j-api:1.7.30</targetId>
-        <scopes>COMPILE,RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
-        <group>org.springframework.boot</group>
-        <name>spring-boot-autoconfigure</name>
-        <version>2.3.12.RELEASE</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/org/springframework/boot/spring-boot-autoconfigure/2.3.12.RELEASE/spring-boot-autoconfigure-2.3.12.RELEASE.jar</absolutePath>
-        <targetId>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</targetId>
-        <scopes>COMPILE,RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
         <group>io.jsonwebtoken</group>
         <name>jjwt-api</name>
         <version>0.11.2</version>
@@ -674,6 +627,17 @@
         <implicit>false</implicit>
         <subDependency>org.springframework:spring-core:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-context:5.2.15.RELEASE</subDependency>
+      </dependency>
+      <dependency>
+        <group>org.springframework.boot</group>
+        <name>spring-boot-autoconfigure</name>
+        <version>2.3.12.RELEASE</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/springframework/boot/spring-boot-autoconfigure/2.3.12.RELEASE/spring-boot-autoconfigure-2.3.12.RELEASE.jar</absolutePath>
+        <targetId>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</targetId>
+        <scopes>COMPILE,RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>true</transitive>
+        <implicit>false</implicit>
       </dependency>
       <dependency>
         <group>org.springframework.boot</group>
@@ -1043,6 +1007,17 @@
         <subDependency>org.springframework:spring-beans:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-context:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-core:5.2.15.RELEASE</subDependency>
+      </dependency>
+      <dependency>
+        <group>org.slf4j</group>
+        <name>slf4j-api</name>
+        <version>1.7.30</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</absolutePath>
+        <targetId>org.slf4j:slf4j-api:1.7.30</targetId>
+        <scopes>COMPILE,RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>true</transitive>
+        <implicit>false</implicit>
       </dependency>
       <dependency>
         <group>io.netty</group>
@@ -1823,20 +1798,6 @@
         <subDependency>org.springframework.boot:spring-boot-starter-jdbc:2.3.12.RELEASE</subDependency>
       </dependency>
       <dependency>
-        <group>com.alibaba</group>
-        <name>druid-spring-boot-starter</name>
-        <version>1.2.8</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/com/alibaba/druid-spring-boot-starter/1.2.8/druid-spring-boot-starter-1.2.8.jar</absolutePath>
-        <targetId>com.alibaba:druid-spring-boot-starter:1.2.8</targetId>
-        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>false</transitive>
-        <implicit>false</implicit>
-        <subDependency>com.alibaba:druid:1.2.8</subDependency>
-        <subDependency>org.slf4j:slf4j-api:1.7.30</subDependency>
-        <subDependency>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</subDependency>
-      </dependency>
-      <dependency>
         <group>mysql</group>
         <name>mysql-connector-java</name>
         <version>8.0.25</version>
@@ -2209,39 +2170,6 @@
         <subDependency>org.springframework:spring-jdbc:5.2.15.RELEASE</subDependency>
       </dependency>
       <dependency>
-        <group>com.alibaba</group>
-        <name>druid</name>
-        <version>1.2.8</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/com/alibaba/druid/1.2.8/druid-1.2.8.jar</absolutePath>
-        <targetId>com.alibaba:druid:1.2.8</targetId>
-        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
-        <group>org.slf4j</group>
-        <name>slf4j-api</name>
-        <version>1.7.30</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</absolutePath>
-        <targetId>org.slf4j:slf4j-api:1.7.30</targetId>
-        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
-        <group>org.springframework.boot</group>
-        <name>spring-boot-autoconfigure</name>
-        <version>2.3.12.RELEASE</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/org/springframework/boot/spring-boot-autoconfigure/2.3.12.RELEASE/spring-boot-autoconfigure-2.3.12.RELEASE.jar</absolutePath>
-        <targetId>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</targetId>
-        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
         <group>com.fasterxml.jackson.core</group>
         <name>jackson-databind</name>
         <version>2.11.4</version>
@@ -2569,6 +2497,17 @@
         <implicit>false</implicit>
         <subDependency>org.springframework:spring-core:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-context:5.2.15.RELEASE</subDependency>
+      </dependency>
+      <dependency>
+        <group>org.springframework.boot</group>
+        <name>spring-boot-autoconfigure</name>
+        <version>2.3.12.RELEASE</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/springframework/boot/spring-boot-autoconfigure/2.3.12.RELEASE/spring-boot-autoconfigure-2.3.12.RELEASE.jar</absolutePath>
+        <targetId>org.springframework.boot:spring-boot-autoconfigure:2.3.12.RELEASE</targetId>
+        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>true</transitive>
+        <implicit>false</implicit>
       </dependency>
       <dependency>
         <group>org.springframework.boot</group>
@@ -2938,6 +2877,17 @@
         <subDependency>org.springframework:spring-beans:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-context:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-core:5.2.15.RELEASE</subDependency>
+      </dependency>
+      <dependency>
+        <group>org.slf4j</group>
+        <name>slf4j-api</name>
+        <version>1.7.30</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar</absolutePath>
+        <targetId>org.slf4j:slf4j-api:1.7.30</targetId>
+        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>true</transitive>
+        <implicit>false</implicit>
       </dependency>
       <dependency>
         <group>io.netty</group>

@@ -18,9 +18,13 @@ public interface PetService extends IService<PetAdoption> {
 
     void publishPet(String userId, PetPublishDTO dto);
 
+    void updatePet(String userId, String petId, PetPublishDTO dto);
+
     Page<PetListVO> getMyPets(String userId, Integer pageNum, Integer pageSize);
 
     void offlinePet(String userId, String petId);
+
+    void onlinePet(String userId, String petId);
 
     void deletePet(String userId, String petId);
 }

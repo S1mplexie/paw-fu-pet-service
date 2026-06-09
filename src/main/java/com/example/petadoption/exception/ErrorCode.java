@@ -35,6 +35,8 @@ public enum ErrorCode {
     PET_CATEGORY_NOT_FOUND(3004, "宠物种类不存在"),
     NOT_PUBLISHER(3005, "非发布者无权操作"),
     CANNOT_CONTACT_SELF(3006, "不能联系自己发布的信息"),
+    PET_ADOPTED_CANNOT_EDIT(3007, "已领养宠物不可修改"),
+    PET_STATUS_CANNOT_ONLINE(3008, "宠物状态不允许上架"),
 
     CONTACT_ALREADY_SENT(4001, "24小时内已发送过联系"),
     CONTACT_NOT_FOUND(4002, "联系记录不存在"),

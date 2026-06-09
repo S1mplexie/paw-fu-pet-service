@@ -32,6 +32,9 @@ public class UserController {
     @ApiOperation("用户注册")
     @PostMapping("/register")
     public Result<Void> register(@Valid @RequestBody UserRegisterDTO dto) {
+        if (!dto.getPassword().equals(dto.getConfirmPassword())) {
+            return Result.error(1001, "两次输入的密码不一致");
+        }
         userService.register(dto);
         return Result.success();
     }

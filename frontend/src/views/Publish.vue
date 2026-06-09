@@ -2,7 +2,7 @@
   <div class="publish-page">
     <div class="header">
       <div class="container">
-        <h1 class="logo"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - 发布领养信息</h1>
+        <h1 class="logo"><paw-icon :size="32" class="logo-icon"></paw-icon> Paw福宠物服务平台 - {{ isEdit ? '修改领养信息' : '发布领养信息' }}</h1>
         <router-link to="/" class="back-btn">返回首页</router-link>
       </div>
     </div>
@@ -59,12 +59,13 @@
             <el-input type="textarea" v-model="form.description" :rows="4"></el-input>
           </el-form-item>
           
-          <el-form-item label="省份">
-            <el-input v-model="form.province"></el-input>
-          </el-form-item>
-          
-          <el-form-item label="城市">
-            <el-input v-model="form.city"></el-input>
+          <el-form-item label="所在地区">
+            <province-city-selector
+              :province.sync="form.province"
+              :city.sync="form.city"
+              province-placeholder="请选择省份"
+              city-placeholder="请选择城市"
+            ></province-city-selector>
           </el-form-item>
           
           <el-form-item label="联系人" prop="contactName">
@@ -80,7 +81,7 @@
           </el-form-item>
           
           <el-form-item>
-            <el-button type="primary" @click="handleSubmit" :loading="loading">发布</el-button>
+            <el-button type="primary" @click="handleSubmit" :loading="loading">{{ isEdit ? '保存' : '发布' }}</el-button>
             <el-button @click="$router.push('/')">取消</el-button>
           </el-form-item>
         </el-form>
@@ -90,15 +91,17 @@
 </template>
 
 <script>
-import { publishPet } from '@/api/pet'
+import { publishPet, updatePet, getPetDetail } from '@/api/pet'
 import PawIcon from '@/components/PawIcon.vue'
 import ImageUpload from '@/components/ImageUpload.vue'
+import ProvinceCitySelector from '@/components/ProvinceCitySelector.vue'
 
 export default {
   name: 'Publish',
   components: {
     PawIcon,
-    ImageUpload
+    ImageUpload,
+    ProvinceCitySelector
   },
   data() {
     return {
@@ -124,17 +127,55 @@ export default {
         contactName: [{ required: true, message: '请输入联系人', trigger: 'blur' }],
         contactPhone: [{ required: true, message: '请输入联系电话', trigger: 'blur' }]
       },
-      loading: false
+      loading: false,
+      isEdit: false,
+      petId: null
+    }
+  },
+  mounted() {
+    this.petId = this.$route.params.id
+    if (this.petId) {
+      this.isEdit = true
+      this.loadPetData()
     }
   },
   methods: {
+    async loadPetData() {
+      try {
+        const res = await getPetDetail(this.petId)
+        const pet = res.data
+        this.form = {
+          petName: pet.petName,
+          categoryId: pet.categoryId,
+          petStatus: pet.petStatus,
+          age: pet.age || 0,
+          gender: pet.gender || 0,
+          color: pet.color || '',
+          description: pet.description || '',
+          photoUrl: pet.photoUrl || '',
+          province: pet.province || '',
+          city: pet.city || '',
+          contactName: pet.contactName,
+          contactPhone: pet.contactPhone,
+          contactWechat: pet.contactWechat || ''
+        }
+      } catch (error) {
+        this.$message.error('加载宠物信息失败')
+        this.$router.push('/my-pets')
+      }
+    },
     handleSubmit() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.loading = true
           try {
-            await publishPet(this.form)
-            this.$message.success('发布成功')
+            if (this.isEdit) {
+              await updatePet(this.petId, this.form)
+              this.$message.success('修改成功')
+            } else {
+              await publishPet(this.form)
+              this.$message.success('发布成功')
+            }
             this.$router.push('/my-pets')
           } catch (error) {
             console.error(error)

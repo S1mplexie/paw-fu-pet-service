@@ -110,6 +110,49 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
     }
 
     @Override
+    public void updatePet(String userId, String petId, PetPublishDTO dto) {
+        LambdaQueryWrapper<PetAdoption> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PetAdoption::getPetId, petId);
+        PetAdoption pet = this.getOne(wrapper);
+        
+        if (pet == null) {
+            throw new BusinessException(ErrorCode.PET_NOT_FOUND);
+        }
+        
+        if (!pet.getPublisherId().equals(userId)) {
+            throw new BusinessException(ErrorCode.NOT_PUBLISHER);
+        }
+        
+        if (pet.getAdoptionStatus() == 2) {
+            throw new BusinessException(ErrorCode.PET_ADOPTED_CANNOT_EDIT);
+        }
+        
+        pet.setPetName(dto.getPetName());
+        pet.setCategoryId(dto.getCategoryId());
+        pet.setPetStatus(dto.getPetStatus());
+        pet.setAge(dto.getAge());
+        pet.setGender(dto.getGender());
+        pet.setColor(dto.getColor());
+        
+        if (StrUtil.isNotBlank(dto.getWeight())) {
+            pet.setWeight(new BigDecimal(dto.getWeight()));
+        }
+        
+        pet.setDescription(dto.getDescription());
+        pet.setPhotoUrls(dto.getPhotoUrl());
+        pet.setProvince(dto.getProvince());
+        pet.setCity(dto.getCity());
+        pet.setDistrict(dto.getDistrict());
+        pet.setAddress(dto.getAddress());
+        pet.setContactName(dto.getContactName());
+        pet.setContactPhone(dto.getContactPhone());
+        pet.setContactWechat(dto.getContactWechat());
+        
+        this.updateById(pet);
+        log.info("修改领养信息成功，petId: {}, userId: {}", petId, userId);
+    }
+
+    @Override
     public Page<PetListVO> getMyPets(String userId, Integer pageNum, Integer pageSize) {
         Page<PetAdoption> page = new Page<>(pageNum, pageSize);
         
@@ -148,6 +191,29 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
         
         pet.setAdoptionStatus(3);
         this.updateById(pet);
+    }
+
+    @Override
+    public void onlinePet(String userId, String petId) {
+        LambdaQueryWrapper<PetAdoption> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(PetAdoption::getPetId, petId);
+        PetAdoption pet = this.getOne(wrapper);
+        
+        if (pet == null) {
+            throw new BusinessException(ErrorCode.PET_NOT_FOUND);
+        }
+        
+        if (!pet.getPublisherId().equals(userId)) {
+            throw new BusinessException(ErrorCode.NOT_PUBLISHER);
+        }
+        
+        if (pet.getAdoptionStatus() != 3) {
+            throw new BusinessException(ErrorCode.PET_STATUS_CANNOT_ONLINE);
+        }
+        
+        pet.setAdoptionStatus(1);
+        this.updateById(pet);
+        log.info("上架领养信息成功，petId: {}, userId: {}", petId, userId);
     }
 
     @Override

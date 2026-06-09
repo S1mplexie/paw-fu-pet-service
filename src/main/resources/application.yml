@@ -34,6 +34,19 @@ spring:
     time-zone: GMT+8
     serialization:
       write-dates-as-timestamps: false
+  
+  # Redis配置
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
 
 # 本地文件存储配置
 file:
@@ -77,3 +90,32 @@ logging:
     org.springframework.security: info
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+
+# 浏览量统计配置
+view:
+  cache:
+    expire: 86400
+  suspicious:
+    threshold: 10
+    window: 60
+
+# DeepSeek AI配置
+deepseek:
+  endpoint: https://api.deepseek.com/v1/chat/completions
+  api-key: sk-21fb9e9218e04cc9b8e5d9b965c4a8ba
+  timeout: 15000
+  connect-timeout: 5000
+  model: deepseek-chat
+  max-tokens: 2000
+
+# AI客服配置
+ai:
+  prompt:
+    context: |
+      你是Paw福宠物服务平台的AI智能客服助手，专注于宠物养护、健康、训练和领养等领域的知识咨询。
+      请遵循以下原则：
+      1. 仅回答与宠物相关的问题
+      2. 回答专业、准确、友好
+      3. 涉及健康问题时提醒及时就医
+      4. 保持回答简洁明了，控制在300字以内
+  quick-questions: 如何喂养幼犬？,狗狗呕吐怎么办？,如何训练猫咪使用猫砂？,宠物驱虫多久一次？,如何领养宠物？

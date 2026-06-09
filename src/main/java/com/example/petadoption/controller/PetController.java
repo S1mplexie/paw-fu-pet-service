@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.petadoption.dto.PetPublishDTO;
 import com.example.petadoption.dto.PetQueryDTO;
 import com.example.petadoption.service.PetService;
+import com.example.petadoption.service.ViewStatService;
 import com.example.petadoption.util.JwtUtil;
 import com.example.petadoption.vo.PetListVO;
 import com.example.petadoption.vo.Result;
@@ -12,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -28,6 +30,9 @@ public class PetController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private ViewStatService viewStatService;
+
     @ApiOperation("查询领养信息列表")
     @GetMapping("/list")
     public Result<Page<PetListVO>> getPetList(PetQueryDTO dto) {
@@ -37,7 +42,20 @@ public class PetController {
 
     @ApiOperation("查询领养信息详情")
     @GetMapping("/detail/{id}")
-    public Result<PetListVO> getPetDetail(@PathVariable String id) {
+    public Result<PetListVO> getPetDetail(@PathVariable String id,
+                                          HttpServletRequest request,
+                                          @RequestHeader(value = "Authorization", required = false) String authorization) {
+        String userId = null;
+        if (authorization != null && authorization.startsWith("Bearer ")) {
+            try {
+                String token = authorization.replace("Bearer ", "");
+                userId = jwtUtil.getUserId(token);
+            } catch (Exception e) {
+            }
+        }
+        
+        viewStatService.recordView(id, userId, request);
+        
         PetListVO vo = petService.getPetDetail(id);
         return Result.success(vo);
     }
@@ -49,6 +67,17 @@ public class PetController {
         String token = authorization.replace("Bearer ", "");
         String userId = jwtUtil.getUserId(token);
         petService.publishPet(userId, dto);
+        return Result.success();
+    }
+
+    @ApiOperation("更新领养信息")
+    @PutMapping("/update/{id}")
+    public Result<Void> updatePet(@RequestHeader("Authorization") String authorization,
+                                   @PathVariable String id,
+                                   @Valid @RequestBody PetPublishDTO dto) {
+        String token = authorization.replace("Bearer ", "");
+        String userId = jwtUtil.getUserId(token);
+        petService.updatePet(userId, id, dto);
         return Result.success();
     }
 
@@ -70,6 +99,16 @@ public class PetController {
         String token = authorization.replace("Bearer ", "");
         String userId = jwtUtil.getUserId(token);
         petService.offlinePet(userId, id);
+        return Result.success();
+    }
+
+    @ApiOperation("上架领养信息")
+    @PutMapping("/online/{id}")
+    public Result<Void> onlinePet(@RequestHeader("Authorization") String authorization,
+                                   @PathVariable String id) {
+        String token = authorization.replace("Bearer ", "");
+        String userId = jwtUtil.getUserId(token);
+        petService.onlinePet(userId, id);
         return Result.success();
     }
 

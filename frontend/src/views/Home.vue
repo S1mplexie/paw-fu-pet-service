@@ -101,7 +101,11 @@
       <div class="pet-grid">
         <div v-for="pet in petList" :key="pet.petId" class="pet-card" @click="viewDetail(pet.petId)">
           <div class="pet-image">
-            <img :src="pet.photoUrl || defaultImage" :alt="pet.petName">
+            <img v-if="pet.photoUrl" :src="pet.photoUrl" :alt="pet.petName">
+            <div v-else class="no-image">
+              <span>暂无</span>
+              <span>图片</span>
+            </div>
             <div class="pet-badge" :class="'status-' + pet.adoptionStatus">
               {{ getStatusName(pet.adoptionStatus) }}
             </div>
@@ -114,7 +118,7 @@
               </el-tag>
             </div>
             <div class="pet-meta">
-              <span><i class="el-icon-location"></i> {{ pet.province }} {{ pet.city }}</span>
+              <span class="location-text">{{ formatLocation(pet.province, pet.city) }}</span>
               <span><i class="el-icon-view"></i> {{ pet.viewCount || 0 }}</span>
             </div>
             <div class="pet-footer">
@@ -143,17 +147,30 @@
         <paw-icon :size="24"></paw-icon> Paw福宠物服务平台 | 用爱温暖每一个生命
       </div>
     </div>
+    
+    <ai-float-icon @click="showAiChat = true"></ai-float-icon>
+    <ai-chat-window 
+      :visible="showAiChat" 
+      @close="showAiChat = false"
+      @minimize="showAiChat = false">
+    </ai-chat-window>
   </div>
 </template>
 
 <script>
 import { getPetList } from '@/api/pet'
+import { formatTimeDifference } from '@/utils/timeUtil'
+import { formatLocation } from '@/utils/locationUtil'
 import PawIcon from '@/components/PawIcon.vue'
+import AiFloatIcon from '@/components/AiFloatIcon.vue'
+import AiChatWindow from '@/components/AiChatWindow.vue'
 
 export default {
   name: 'Home',
   components: {
-    PawIcon
+    PawIcon,
+    AiFloatIcon,
+    AiChatWindow
   },
   data() {
     return {
@@ -165,7 +182,8 @@ export default {
       pageNum: 1,
       pageSize: 12,
       total: 0,
-      defaultImage: 'https://images.unsplash.com/photo-1587300003381-16d9e0e4c6e8?w=400&h=300&fit=crop'
+      defaultImage: 'https://images.unsplash.com/photo-1587300003381-16d9e0e4c6e8?w=400&h=300&fit=crop',
+      showAiChat: false
     }
   },
   computed: {
@@ -243,14 +261,10 @@ export default {
       return map[status] || '未知'
     },
     formatTime(time) {
-      if (!time) return ''
-      const date = new Date(time)
-      const now = new Date()
-      const diff = now - date
-      if (diff < 3600000) return '刚刚'
-      if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前'
-      if (diff < 604800000) return Math.floor(diff / 86400000) + '天前'
-      return date.toLocaleDateString()
+      return formatTimeDifference(time)
+    },
+    formatLocation(province, city) {
+      return formatLocation(province, city)
     }
   }
 }
@@ -464,6 +478,24 @@ export default {
   transition: transform 0.3s;
 }
 
+.no-image {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.no-image span {
+  font-size: 28px;
+  font-weight: 300;
+  color: #909399;
+  letter-spacing: 6px;
+}
+
 .pet-card:hover .pet-image img {
   transform: scale(1.1);
 }
@@ -524,6 +556,11 @@ export default {
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+.location-text {
+  font-size: 13px;
+  color: #909399;
 }
 
 .pet-footer {

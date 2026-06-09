@@ -34,11 +34,29 @@
               placeholder="密码（8-20位数字+字母）" 
               prefix-icon="el-icon-lock"
               size="large"
+              @input="handlePasswordChange"
             >
               <i 
                 slot="suffix" 
                 :class="showPassword ? 'el-icon-view' : 'el-icon-close'" 
                 @click="showPassword = !showPassword"
+                style="cursor: pointer; margin-right: 10px;"
+              ></i>
+            </el-input>
+          </el-form-item>
+          
+          <el-form-item prop="confirmPassword">
+            <el-input 
+              v-model="form.confirmPassword" 
+              :type="showConfirmPassword ? 'text' : 'password'" 
+              placeholder="确认密码" 
+              prefix-icon="el-icon-lock"
+              size="large"
+            >
+              <i 
+                slot="suffix" 
+                :class="showConfirmPassword ? 'el-icon-view' : 'el-icon-close'" 
+                @click="showConfirmPassword = !showConfirmPassword"
                 style="cursor: pointer; margin-right: 10px;"
               ></i>
             </el-input>
@@ -103,10 +121,19 @@ export default {
     PawIcon
   },
   data() {
+    const validateConfirmPassword = (rule, value, callback) => {
+      if (value !== this.form.password) {
+        callback(new Error('两次输入的密码不一致'))
+      } else {
+        callback()
+      }
+    }
+    
     return {
       form: {
         username: '',
         password: '',
+        confirmPassword: '',
         phone: '',
         email: ''
       },
@@ -119,6 +146,10 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { pattern: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,20}$/, message: '密码需8-20位且包含数字和字母', trigger: 'blur' }
         ],
+        confirmPassword: [
+          { required: true, message: '请输入确认密码', trigger: 'blur' },
+          { validator: validateConfirmPassword, trigger: 'blur' }
+        ],
         phone: [
           { pattern: /^$|^1[3-9]\d{9}$/, message: '手机号格式错误', trigger: 'blur' }
         ],
@@ -127,10 +158,16 @@ export default {
         ]
       },
       showPassword: false,
+      showConfirmPassword: false,
       loading: false
     }
   },
   methods: {
+    handlePasswordChange() {
+      if (this.form.confirmPassword) {
+        this.$refs.form.validateField('confirmPassword')
+      }
+    },
     handleRegister() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
@@ -139,6 +176,7 @@ export default {
             const data = {
               username: this.form.username,
               password: this.form.password,
+              confirmPassword: this.form.confirmPassword,
               phone: this.form.phone || null,
               email: this.form.email || null
             }

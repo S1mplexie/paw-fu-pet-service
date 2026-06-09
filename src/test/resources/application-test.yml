@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;MODE=MySQL
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+jwt:
+  secret-key: test-secret-key-for-unit-testing-purpose-minimum-256-bits-required
+  expiration: 86400000
+  refresh-threshold: 3600000
+
+ai:
+  prompt:
+    context: 你是Paw福宠物服务平台的AI智能客服助手
+  quick-questions: 如何喂养幼犬？,狗狗呕吐怎么办？,如何训练猫咪使用猫砂？,宠物驱虫多久一次？
+
+deepseek:
+  api-key: test-api-key
+  base-url: https://api.deepseek.com
+  model: deepseek-chat
+  max-tokens: 1000
+  temperature: 0.7
+
+file:
+  upload:
+    path: ./test-uploads/
+    max-size: 10485760
