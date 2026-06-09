@@ -90,10 +90,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.USER_DISABLED);
         }
 
-        String token = jwtUtil.generateToken(user.getUserId(), user.getUsername());
+        String token = jwtUtil.generateToken(user.getUserId(), user.getUsername(), user.getRole());
 
         LoginVO loginVO = new LoginVO();
         loginVO.setToken(token);
+        loginVO.setRole(user.getRole());
 
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);

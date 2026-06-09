@@ -43,7 +43,13 @@ public enum ErrorCode {
 
     FILE_TYPE_ERROR(5001, "文件类型不支持"),
     FILE_SIZE_ERROR(5002, "文件大小超过限制"),
-    FILE_UPLOAD_ERROR(5003, "文件上传失败");
+    FILE_UPLOAD_ERROR(5003, "文件上传失败"),
+    
+    ADMIN_NOT_FOUND(6001, "管理员不存在"),
+    NOT_ADMIN(6002, "非管理员无权操作"),
+    CANNOT_DISABLE_ADMIN(6003, "不能禁用管理员账户"),
+    CANNOT_DELETE_ADMIN(6004, "不能删除管理员账户"),
+    USER_HAS_RELATED_DATA(6005, "用户存在关联数据，无法删除");
 
     private final Integer code;
     private final String message;

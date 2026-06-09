@@ -3,34 +3,30 @@ package com.example.petadoption.vo;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
-/**
- * 用户信息VO
- */
 @Data
-public class UserVO implements Serializable {
+public class AdminUserVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String userId;
-
+    
     private String username;
-
+    
     private String nickname;
-
+    
     private String avatar;
-
+    
     private String phone;
-
+    
     private String email;
-
-    private Integer status;
     
     private String role;
     
-    // 脱敏后的手机号（用于列表展示）
-    private String phoneMasked;
+    private Integer status;
     
-    // 脱敏后的邮箱（用于列表展示）
-    private String emailMasked;
+    private LocalDateTime createTime;
+    
+    private LocalDateTime updateTime;
 }

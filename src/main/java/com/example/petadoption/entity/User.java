@@ -33,6 +33,8 @@ public class User implements Serializable {
 
     private String avatar;
 
+    private String role;
+
     private Integer status;
 
     @TableField(fill = FieldFill.INSERT)

@@ -97,7 +97,13 @@ export default {
             const res = await login(this.form)
             this.$store.dispatch('login', res.data)
             this.$message.success('登录成功，欢迎回来！')
-            this.$router.push('/')
+            if (res.data.user && res.data.user.role === 'ADMIN') {
+              localStorage.setItem('isAdmin', 'true')
+              this.$store.commit('SET_ADMIN_INFO', res.data.user)
+              this.$router.push('/admin/dashboard')
+            } else {
+              this.$router.push('/')
+            }
           } catch (error) {
             console.error(error)
           } finally {

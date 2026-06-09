@@ -102,7 +102,7 @@ view:
 # DeepSeek AI配置
 deepseek:
   endpoint: https://api.deepseek.com/v1/chat/completions
-  api-key: sk-21fb9e9218e04cc9b8e5d9b965c4a8ba
+  api-key: ${DEEPSEEK_API_KEY:}
   timeout: 15000
   connect-timeout: 5000
   model: deepseek-chat

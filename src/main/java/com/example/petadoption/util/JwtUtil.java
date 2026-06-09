@@ -42,6 +42,20 @@ public class JwtUtil {
                 .signWith(getSecretKey(), SignatureAlgorithm.HS512)
                 .compact();
     }
+    
+    public String generateToken(String userId, String username, String role) {
+        Date now = new Date();
+        Date expirationDate = new Date(now.getTime() + expiration);
+
+        return Jwts.builder()
+                .setSubject(userId)
+                .claim("username", username)
+                .claim("role", role)
+                .setIssuedAt(now)
+                .setExpiration(expirationDate)
+                .signWith(getSecretKey(), SignatureAlgorithm.HS512)
+                .compact();
+    }
 
     public Claims parseToken(String token) {
         try {
@@ -73,6 +87,11 @@ public class JwtUtil {
     public String getUsername(String token) {
         Claims claims = parseToken(token);
         return claims.get("username", String.class);
+    }
+    
+    public String getRole(String token) {
+        Claims claims = parseToken(token);
+        return claims.get("role", String.class);
     }
 
     public boolean isTokenExpired(String token) {

@@ -6,7 +6,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     token: localStorage.getItem('token') || '',
-    user: JSON.parse(localStorage.getItem('user') || '{}')
+    user: JSON.parse(localStorage.getItem('user') || '{}'),
+    adminInfo: JSON.parse(localStorage.getItem('adminInfo') || '{}'),
+    isAdmin: localStorage.getItem('isAdmin') === 'true'
   },
   mutations: {
     SET_TOKEN(state, token) {
@@ -22,6 +24,20 @@ export default new Vuex.Store({
       state.user = {}
       localStorage.removeItem('token')
       localStorage.removeItem('user')
+    },
+    SET_ADMIN_INFO(state, adminInfo) {
+      state.adminInfo = adminInfo
+      state.isAdmin = true
+      localStorage.setItem('adminInfo', JSON.stringify(adminInfo))
+      localStorage.setItem('isAdmin', 'true')
+    },
+    CLEAR_ADMIN_INFO(state) {
+      state.adminInfo = {}
+      state.isAdmin = false
+      state.token = ''
+      localStorage.removeItem('adminInfo')
+      localStorage.removeItem('isAdmin')
+      localStorage.removeItem('token')
     }
   },
   actions: {
@@ -31,10 +47,19 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit('CLEAR_USER')
+    },
+    adminLogin({ commit }, data) {
+      commit('SET_TOKEN', data.token)
+      commit('SET_ADMIN_INFO', data.admin)
+    },
+    adminLogout({ commit }) {
+      commit('CLEAR_ADMIN_INFO')
     }
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    user: state => state.user
+    user: state => state.user,
+    isAdmin: state => state.isAdmin,
+    adminInfo: state => state.adminInfo
   }
 })
