@@ -100,9 +100,10 @@ view:
     window: 60
 
 # DeepSeek AI配置
+# 生产环境请使用环境变量: export DEEPSEEK_API_KEY=your-key
 deepseek:
   endpoint: https://api.deepseek.com/v1/chat/completions
-  api-key: ${DEEPSEEK_API_KEY:}
+  api-key: ${DEEPSEEK_API_KEY:sk-3255b4516def43a4a99b7d33d889297c}
   timeout: 15000
   connect-timeout: 5000
   model: deepseek-chat
