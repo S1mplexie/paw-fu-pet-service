@@ -32,8 +32,10 @@ request.interceptors.response.use(
   error => {
     if (error.response) {
       const status = error.response.status
-      if (status === 401) {
-        Message.error('未登录或登录已过期')
+      const message = error.response.data.message || ''
+      
+      if (status === 401 || (status === 403 && message.includes('token'))) {
+        Message.error('登录已过期，请重新登录')
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         router.push('/login')
@@ -42,7 +44,7 @@ request.interceptors.response.use(
       } else if (status === 404) {
         Message.error('请求的资源不存在')
       } else {
-        Message.error(error.response.data.message || '请求失败')
+        Message.error(message || '请求失败')
       }
     } else {
       Message.error('网络错误，请检查网络连接')
