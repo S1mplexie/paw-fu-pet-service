@@ -44,9 +44,10 @@
               </div>
             </div>
             
-            <div class="gallery-tip" v-if="galleryImages.length > 1">
+            <div class="gallery-tip" v-if="galleryImages.length > 1" @click="openGallery(0)">
               <i class="el-icon-picture"></i>
-              <span>点击查看{{ galleryImages.length }}张图片</span>
+              <span class="gallery-tip-text">点击查看{{ galleryImages.length }}张图片</span>
+              <i class="el-icon-arrow-right gallery-arrow"></i>
             </div>
           </div>
           
@@ -386,23 +387,42 @@ export default {
 
 .gallery-tip {
   margin-top: 15px;
-  padding: 12px;
-  background: #f5f7fa;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
   border-radius: 8px;
   text-align: center;
   color: #606266;
   font-size: 14px;
   cursor: pointer;
   transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e0e3e8;
 }
 
 .gallery-tip:hover {
-  background: #e9ecef;
+  background: linear-gradient(135deg, #e9ecef 0%, #dfe3e8 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .gallery-tip i {
-  margin-right: 8px;
   color: #667eea;
+}
+
+.gallery-tip-text {
+  margin: 0 8px;
+  font-weight: 500;
+}
+
+.gallery-arrow {
+  margin-left: 4px;
+  transition: transform 0.3s;
+}
+
+.gallery-tip:hover .gallery-arrow {
+  transform: translateX(4px);
 }
 
 .image-placeholder {
