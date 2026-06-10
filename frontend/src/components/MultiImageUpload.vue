@@ -79,7 +79,7 @@ export default {
   },
   computed: {
     uploadUrl() {
-      return `${process.env.VUE_APP_BASE_URL || 'http://localhost:8080/api'}/file/upload?type=${this.type}`
+      return `${process.env.VUE_APP_BASE_URL || '/api'}/file/upload?type=${this.type}`
     },
     headers() {
       const token = localStorage.getItem('token')
