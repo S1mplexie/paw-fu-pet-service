@@ -66,8 +66,8 @@
         style="margin-top: 20px; text-align: right"
       ></el-pagination>
     </el-card>
-    <el-dialog title="宠物详情" :visible.sync="detailVisible" width="700px">
-      <el-descriptions :column="2" border>
+    <el-dialog title="宠物详情" :visible.sync="detailVisible" :width="isMobile ? '90%' : '700px'" :fullscreen="isMobile" custom-class="pet-detail-dialog">
+      <el-descriptions :column="isMobile ? 1 : 2" border>
         <el-descriptions-item label="宠物ID">{{ currentPet.petId }}</el-descriptions-item>
         <el-descriptions-item label="宠物名称">{{ currentPet.petName }}</el-descriptions-item>
         <el-descriptions-item label="分类">{{ getCategoryText(currentPet.category) }}</el-descriptions-item>
@@ -113,13 +113,24 @@ export default {
       statusFilter: '',
       categoryFilter: '',
       detailVisible: false,
-      currentPet: {}
+      currentPet: {},
+      isMobile: false
     }
   },
   created() {
     this.fetchPets()
   },
+  mounted() {
+    this.checkMobile()
+    window.addEventListener('resize', this.checkMobile)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile)
+  },
   methods: {
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768
+    },
     async fetchPets() {
       this.loading = true
       try {
