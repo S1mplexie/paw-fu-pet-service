@@ -44,7 +44,7 @@
               </div>
             </div>
             
-            <div class="gallery-tip" v-if="galleryImages.length > 1" @click="openGallery(0)">
+            <div class="gallery-tip" v-if="galleryImages.length > 0" @click="openGallery(0)">
               <i class="el-icon-picture"></i>
               <span class="gallery-tip-text">点击查看{{ galleryImages.length }}张图片</span>
               <i class="el-icon-arrow-right gallery-arrow"></i>
