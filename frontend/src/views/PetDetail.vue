@@ -29,7 +29,7 @@
               </div>
             </div>
             
-            <div class="thumbnail-list" v-if="galleryImages.length > 1">
+            <div class="thumbnail-list" v-if="galleryImages.length > 0">
               <div
                 v-for="(image, index) in galleryImages.slice(0, 5)"
                 :key="index"
