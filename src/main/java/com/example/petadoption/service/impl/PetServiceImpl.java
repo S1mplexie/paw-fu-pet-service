@@ -158,11 +158,7 @@ public class PetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> implemen
             pet.setCoverPhotoUrl(dto.getPhotoUrl());
         }
         
-        if (StrUtil.isNotBlank(dto.getPhotoUrls())) {
-            pet.setPhotoUrls(dto.getPhotoUrls());
-        } else if (StrUtil.isNotBlank(dto.getPhotoUrl())) {
-            pet.setPhotoUrls(dto.getPhotoUrl());
-        }
+        pet.setPhotoUrls(dto.getPhotoUrls());
         
         pet.setProvince(dto.getProvince());
         pet.setCity(dto.getCity());
