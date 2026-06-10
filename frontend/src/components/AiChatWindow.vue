@@ -101,14 +101,28 @@ export default {
     this.loadQuickQuestions()
     this.loadWindowSize()
     this.loadWindowPosition()
+    this.adjustForMobile()
     document.addEventListener('mousemove', this.handleMouseMove)
     document.addEventListener('mouseup', this.handleMouseUp)
+    window.addEventListener('resize', this.handleWindowResize)
   },
   beforeDestroy() {
     document.removeEventListener('mousemove', this.handleMouseMove)
     document.removeEventListener('mouseup', this.handleMouseUp)
+    window.removeEventListener('resize', this.handleWindowResize)
   },
   methods: {
+    adjustForMobile() {
+      if (window.innerWidth <= 768) {
+        this.windowSize.width = Math.min(window.innerWidth - 20, 380)
+        this.windowSize.height = Math.min(window.innerHeight - 80, 500)
+        this.windowPosition.left = (window.innerWidth - this.windowSize.width) / 2
+        this.windowPosition.top = 60
+      }
+    },
+    handleWindowResize() {
+      this.adjustForMobile()
+    },
     async loadQuickQuestions() {
       try {
         const res = await getQuickQuestions()
@@ -452,5 +466,106 @@ export default {
   bottom: 3px;
   border-right: 2px solid #dcdfe6;
   border-bottom: 2px solid #dcdfe6;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .ai-chat-window {
+    border-radius: 8px;
+  }
+  
+  .chat-header {
+    padding: 12px;
+    border-radius: 8px 8px 0 0;
+  }
+  
+  .chat-header .title {
+    font-size: 14px;
+  }
+  
+  .header-actions i {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  
+  .chat-messages {
+    padding: 12px;
+  }
+  
+  .welcome-message {
+    padding: 30px 15px;
+  }
+  
+  .welcome-message i {
+    font-size: 36px;
+  }
+  
+  .welcome-message p {
+    font-size: 13px;
+  }
+  
+  .message-content {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+  
+  .quick-questions {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  
+  .quick-tag {
+    font-size: 12px;
+  }
+  
+  .chat-input {
+    padding: 10px 12px;
+    gap: 6px;
+  }
+  
+  .resize-handle {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .chat-header {
+    padding: 10px;
+  }
+  
+  .chat-header .title {
+    font-size: 13px;
+  }
+  
+  .chat-messages {
+    padding: 10px;
+  }
+  
+  .welcome-message {
+    padding: 20px 10px;
+  }
+  
+  .welcome-message i {
+    font-size: 32px;
+  }
+  
+  .message-content {
+    padding: 7px 10px;
+    font-size: 13px;
+    max-width: 85%;
+  }
+  
+  .quick-questions {
+    padding: 8px 10px;
+    gap: 5px;
+  }
+  
+  .quick-tag {
+    font-size: 11px;
+  }
+  
+  .chat-input {
+    padding: 8px 10px;
+  }
 }
 </style>
