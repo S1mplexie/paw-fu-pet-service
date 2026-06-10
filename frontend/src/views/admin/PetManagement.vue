@@ -18,21 +18,21 @@
         <el-button icon="el-icon-refresh" @click="resetFilter">重置</el-button>
       </div>
       <el-table :data="petList" v-loading="loading" border stripe>
-        <el-table-column prop="petId" label="宠物ID" width="80"></el-table-column>
+        <el-table-column prop="petId" label="宠物ID" width="120"></el-table-column>
         <el-table-column prop="petName" label="宠物名称" width="120"></el-table-column>
-        <el-table-column prop="category" label="分类" width="80">
+        <el-table-column prop="category" label="分类" width="100">
           <template slot-scope="scope">
             {{ getCategoryText(scope.row.category) }}
           </template>
         </el-table-column>
         <el-table-column prop="breed" label="品种" width="120"></el-table-column>
         <el-table-column prop="age" label="年龄" width="80"></el-table-column>
-        <el-table-column prop="gender" label="性别" width="60">
+        <el-table-column prop="gender" label="性别" width="80">
           <template slot-scope="scope">
             {{ scope.row.gender === 'male' ? '公' : '母' }}
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="80">
+        <el-table-column prop="status" label="状态" width="100">
           <template slot-scope="scope">
             <el-tag :type="getStatusType(scope.row.status || scope.row.adoptionStatus)" size="small">
               {{ getStatusText(scope.row.status || scope.row.adoptionStatus) }}
@@ -40,8 +40,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="publisherName" label="发布者" width="120"></el-table-column>
-        <el-table-column prop="createTime" label="发布时间" width="160"></el-table-column>
-        <el-table-column label="操作" width="140">
+        <el-table-column prop="createTime" label="发布时间" width="180"></el-table-column>
+        <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-view" @click="viewDetail(scope.row)">详情</el-button>
             <el-button

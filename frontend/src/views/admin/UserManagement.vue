@@ -20,20 +20,20 @@
         <el-button icon="el-icon-refresh" @click="resetFilter">重置</el-button>
       </div>
       <el-table :data="userList" v-loading="loading" border stripe>
-        <el-table-column prop="userId" label="用户ID" width="80"></el-table-column>
+        <el-table-column prop="userId" label="用户ID" width="120"></el-table-column>
         <el-table-column prop="username" label="用户名" width="120"></el-table-column>
         <el-table-column prop="nickname" label="昵称" width="120"></el-table-column>
-        <el-table-column prop="phone" label="手机号" width="130"></el-table-column>
-        <el-table-column prop="email" label="邮箱" width="180"></el-table-column>
-        <el-table-column prop="status" label="状态" width="80">
+        <el-table-column prop="phone" label="手机号" width="140"></el-table-column>
+        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="status" label="状态" width="100">
           <template slot-scope="scope">
             <el-tag :type="scope.row.status === 1 ? 'success' : 'danger'" size="small">
               {{ scope.row.status === 1 ? '正常' : '禁用' }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="注册时间" width="160"></el-table-column>
-        <el-table-column label="操作" width="160">
+        <el-table-column prop="createTime" label="注册时间" width="180"></el-table-column>
+        <el-table-column label="操作" width="200">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-view" @click="viewDetail(scope.row)">详情</el-button>
             <el-button
