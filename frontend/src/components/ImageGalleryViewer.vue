@@ -140,16 +140,19 @@ export default {
 }
 
 .main-image-wrapper {
-  max-width: 90%;
-  max-height: 100%;
+  width: 85%;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .main-image {
   max-width: 100%;
   max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 
