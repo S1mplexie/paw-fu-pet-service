@@ -4,7 +4,10 @@
     <div class="mobile-header" v-if="isMobile">
       <div class="mobile-header-content">
         <el-button icon="el-icon-menu" circle @click="drawerVisible = true" class="menu-btn"></el-button>
-        <h2 class="mobile-title">Paw福管理后台</h2>
+        <div class="mobile-title-wrapper">
+          <img src="@/assets/images/paw.png" class="mobile-logo-icon" alt="Paw福">
+          <h2 class="mobile-title pawfu-title">Paw福管理后台</h2>
+        </div>
         <el-dropdown @command="handleCommand" trigger="click">
           <el-avatar icon="el-icon-user-solid" size="small"></el-avatar>
           <el-dropdown-menu slot="dropdown">
@@ -26,7 +29,7 @@
     >
       <div class="drawer-header">
         <img src="@/assets/images/paw.png" class="drawer-logo" alt="Paw福">
-        <h3>Paw福宠物平台</h3>
+        <h3 class="pawfu-title">Paw福宠物平台</h3>
       </div>
       <el-menu
         :default-active="activeMenu"
@@ -235,6 +238,19 @@ export default {
 .menu-btn {
   border: none;
   background: transparent;
+}
+
+.mobile-title-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+}
+
+.mobile-logo-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
 }
 
 .mobile-title {
