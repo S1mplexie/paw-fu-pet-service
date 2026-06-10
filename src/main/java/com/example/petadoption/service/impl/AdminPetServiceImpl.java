@@ -118,7 +118,7 @@ public class AdminPetServiceImpl extends ServiceImpl<PetMapper, PetAdoption> imp
             throw new BusinessException(ErrorCode.PET_NOT_FOUND);
         }
         
-        pet.setPetStatus(0);
+        pet.setAdoptionStatus(3);
         this.updateById(pet);
         
         auditLogService.logSuccess(operatorId, operatorName, "ADMIN", 
