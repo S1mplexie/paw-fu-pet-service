@@ -32,19 +32,15 @@ request.interceptors.response.use(
   error => {
     if (error.response) {
       const status = error.response.status
-      const message = error.response.data.message || ''
-      
-      if (status === 401 || (status === 403 && message.includes('token'))) {
+      if (status === 401 || status === 403) {
         Message.error('登录已过期，请重新登录')
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         router.push('/login')
-      } else if (status === 403) {
-        Message.error('没有权限访问')
       } else if (status === 404) {
         Message.error('请求的资源不存在')
       } else {
-        Message.error(message || '请求失败')
+        Message.error(error.response.data.message || '请求失败')
       }
     } else {
       Message.error('网络错误，请检查网络连接')
