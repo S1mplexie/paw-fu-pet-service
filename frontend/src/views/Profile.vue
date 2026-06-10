@@ -12,9 +12,9 @@
     </div>
     
     <div class="container">
-      <el-row :gutter="20">
+      <el-row :gutter="20" class="profile-row">
         <!-- 左侧用户信息卡片 -->
-        <el-col :span="8">
+        <el-col :xs="24" :sm="24" :md="8" :lg="8" :xl="8">
           <el-card class="user-card" shadow="hover">
             <div class="user-avatar">
               <image-upload v-model="form.avatar" type="avatars" placeholder="上传头像"></image-upload>
@@ -49,7 +49,7 @@
         </el-col>
         
         <!-- 右侧信息编辑 -->
-        <el-col :span="16">
+        <el-col :xs="24" :sm="24" :md="16" :lg="16" :xl="16">
           <el-card class="edit-card" shadow="hover">
             <div slot="header">
               <i class="el-icon-edit"></i>
@@ -324,5 +324,116 @@ export default {
 
 .edit-card, .security-card {
   margin-top: 30px;
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 12px 0;
+  }
+  
+  .container {
+    padding: 0 15px;
+  }
+  
+  .header .container {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .logo-section {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .logo {
+    font-size: 18px;
+  }
+  
+  .logo-icon {
+    font-size: 28px;
+  }
+  
+  .header .el-button {
+    font-size: 13px;
+    padding: 8px 15px;
+  }
+  
+  .user-card,
+  .edit-card,
+  .security-card {
+    margin-top: 15px;
+  }
+  
+  .user-avatar {
+    padding: 15px 0;
+  }
+  
+  .user-info h3 {
+    font-size: 18px;
+  }
+  
+  .stat-num {
+    font-size: 20px;
+  }
+  
+  .stat-label {
+    font-size: 11px;
+  }
+  
+  .edit-card .el-form-item,
+  .security-card .el-alert {
+    margin-bottom: 18px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    padding: 10px 0;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .logo {
+    font-size: 16px;
+  }
+  
+  .logo-icon {
+    font-size: 24px;
+  }
+  
+  .header .el-button {
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+  
+  .user-card,
+  .edit-card,
+  .security-card {
+    margin-top: 12px;
+  }
+  
+  .user-avatar {
+    padding: 12px 0;
+  }
+  
+  .user-info h3 {
+    font-size: 16px;
+    margin: 8px 0;
+  }
+  
+  .nickname {
+    font-size: 13px;
+  }
+  
+  .stat-num {
+    font-size: 18px;
+  }
+  
+  .stat-label {
+    font-size: 10px;
+  }
 }
 </style>
