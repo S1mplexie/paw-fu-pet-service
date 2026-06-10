@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
-    <el-row :gutter="20">
-      <el-col :span="6">
+    <el-row :gutter="isMobile ? 12 : 20">
+      <el-col :xs="12" :sm="6" :span="6">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon user-icon">
@@ -14,7 +14,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :span="6">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon pet-icon">
@@ -27,7 +27,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :span="6">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon waiting-icon">
@@ -40,7 +40,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :xs="12" :sm="6" :span="6">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon adopted-icon">
@@ -54,8 +54,8 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="20" style="margin-top: 20px">
-      <el-col :span="12">
+    <el-row :gutter="isMobile ? 12 : 20" style="margin-top: 20px">
+      <el-col :xs="24" :sm="12" :span="12">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon today-user-icon">
@@ -68,7 +68,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="12">
+      <el-col :xs="24" :sm="12" :span="12">
         <el-card class="stat-card" shadow="hover">
           <div class="stat-content">
             <div class="stat-icon today-pet-icon">
@@ -92,13 +92,24 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      stats: {}
+      stats: {},
+      isMobile: false
     }
   },
   created() {
     this.fetchStats()
   },
+  mounted() {
+    this.checkMobile()
+    window.addEventListener('resize', this.checkMobile)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.checkMobile)
+  },
   methods: {
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768
+    },
     async fetchStats() {
       try {
         const res = await getDashboardStats()
@@ -175,5 +186,35 @@ export default {
 .stat-label {
   font-size: 14px;
   color: #909399;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    padding: 10px 0;
+  }
+  
+  .stat-card {
+    margin-bottom: 12px;
+  }
+  
+  .stat-content {
+    padding: 8px;
+  }
+  
+  .stat-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 22px;
+    margin-right: 12px;
+  }
+  
+  .stat-value {
+    font-size: 22px;
+    margin-bottom: 3px;
+  }
+  
+  .stat-label {
+    font-size: 12px;
+  }
 }
 </style>
