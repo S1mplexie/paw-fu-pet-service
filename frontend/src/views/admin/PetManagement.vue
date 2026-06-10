@@ -34,8 +34,8 @@
         </el-table-column>
         <el-table-column prop="status" label="状态" width="80">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.status === 0 ? 'warning' : 'success'" size="small">
-              {{ scope.row.status === 0 ? '待领养' : '已领养' }}
+            <el-tag :type="getStatusType(scope.row.status || scope.row.adoptionStatus)" size="small">
+              {{ getStatusText(scope.row.status || scope.row.adoptionStatus) }}
             </el-tag>
           </template>
         </el-table-column>
@@ -45,7 +45,7 @@
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-view" @click="viewDetail(scope.row)">详情</el-button>
             <el-button
-              v-if="scope.row.status === 0"
+              v-if="(scope.row.status || scope.row.adoptionStatus) === 1"
               type="text"
               icon="el-icon-download"
               @click="handleOffline(scope.row)"
@@ -75,8 +75,8 @@
         <el-descriptions-item label="年龄">{{ currentPet.age }}</el-descriptions-item>
         <el-descriptions-item label="性别">{{ currentPet.gender === 'male' ? '公' : '母' }}</el-descriptions-item>
         <el-descriptions-item label="状态">
-          <el-tag :type="currentPet.status === 0 ? 'warning' : 'success'" size="small">
-            {{ currentPet.status === 0 ? '待领养' : '已领养' }}
+          <el-tag :type="getStatusType(currentPet.status || currentPet.adoptionStatus)" size="small">
+            {{ getStatusText(currentPet.status || currentPet.adoptionStatus) }}
           </el-tag>
         </el-descriptions-item>
         <el-descriptions-item label="发布者">{{ currentPet.publisherName }}</el-descriptions-item>
@@ -158,6 +158,22 @@ export default {
         other: '其他'
       }
       return map[category] || category
+    },
+    getStatusText(status) {
+      const map = {
+        1: '待领养',
+        2: '已领养',
+        3: '已下架'
+      }
+      return map[status] || '未知'
+    },
+    getStatusType(status) {
+      const map = {
+        1: 'success',
+        2: 'info',
+        3: 'warning'
+      }
+      return map[status] || 'info'
     },
     async viewDetail(row) {
       try {
