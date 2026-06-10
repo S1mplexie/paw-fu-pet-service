@@ -33,7 +33,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="注册时间" width="160"></el-table-column>
-        <el-table-column label="操作" width="220" fixed="right">
+        <el-table-column label="操作" width="220">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-view" @click="viewDetail(scope.row)">详情</el-button>
             <el-button

@@ -41,7 +41,7 @@
         </el-table-column>
         <el-table-column prop="publisherName" label="发布者" width="120"></el-table-column>
         <el-table-column prop="createTime" label="发布时间" width="160"></el-table-column>
-        <el-table-column label="操作" width="180" fixed="right">
+        <el-table-column label="操作" width="180">
           <template slot-scope="scope">
             <el-button type="text" icon="el-icon-view" @click="viewDetail(scope.row)">详情</el-button>
             <el-button
