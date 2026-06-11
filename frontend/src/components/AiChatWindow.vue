@@ -10,6 +10,7 @@
     <div class="chat-header" @mousedown="handleMoveStart">
       <span class="title">智能客服助手</span>
       <div class="header-actions">
+        <span class="remaining-count" v-if="remainingCount !== null">剩余{{ remainingCount }}次</span>
         <i class="el-icon-minus" @click="$emit('minimize')"></i>
         <i class="el-icon-close" @click="$emit('close')"></i>
       </div>
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import { aiChat, getQuickQuestions } from '@/api/ai'
+import { aiChat, getQuickQuestions, getRemainingCount } from '@/api/ai'
 
 export default {
   name: 'AiChatWindow',
@@ -74,6 +75,7 @@ export default {
       inputText: '',
       loading: false,
       quickQuestions: [],
+      remainingCount: null,
       windowSize: {
         width: 380,
         height: 500
@@ -99,6 +101,7 @@ export default {
   },
   mounted() {
     this.loadQuickQuestions()
+    this.loadRemainingCount()
     this.loadWindowSize()
     this.loadWindowPosition()
     this.adjustForMobile()
@@ -135,6 +138,14 @@ export default {
         ]
       }
     },
+    async loadRemainingCount() {
+      try {
+        const res = await getRemainingCount()
+        this.remainingCount = res.data
+      } catch (error) {
+        this.remainingCount = null
+      }
+    },
     async sendMessage() {
       if (!this.inputText.trim() || this.loading) return
       
@@ -153,10 +164,14 @@ export default {
           type: 'assistant',
           content: res.data.answer
         })
+        if (res.data.remainingCount !== undefined) {
+          this.remainingCount = res.data.remainingCount
+        }
       } catch (error) {
+        const errorMsg = error.response?.data?.message || '抱歉，服务暂时不可用，请稍后再试。'
         this.messages.push({
           type: 'assistant',
-          content: '抱歉，服务暂时不可用，请稍后再试。'
+          content: errorMsg
         })
       } finally {
         this.loading = false
@@ -311,6 +326,14 @@ export default {
   margin-left: 12px;
   cursor: pointer;
   font-size: 16px;
+}
+
+.remaining-count {
+  font-size: 12px;
+  margin-right: 8px;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
 }
 
 .chat-messages {

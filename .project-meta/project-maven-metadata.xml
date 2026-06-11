@@ -875,6 +875,11 @@
       </dependency>
     </dependency>
     <dependency>
+      <coordinate>org.apache.commons:commons-pool2:jar:2.8.1</coordinate>
+      <filePath>C:/Users/31339/.m2/repository/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar</filePath>
+      <isInternal>false</isInternal>
+    </dependency>
+    <dependency>
       <coordinate>io.minio:minio:jar:8.3.0</coordinate>
       <filePath>C:/Users/31339/.m2/repository/io/minio/minio/8.3.0/minio-8.3.0.jar</filePath>
       <isInternal>false</isInternal>
@@ -1596,6 +1601,19 @@
         <isInternal>false</isInternal>
       </dependency>
     </dependency>
+    <dependency>
+      <coordinate>org.mockito:mockito-inline:jar:3.12.4</coordinate>
+      <scope>test</scope>
+      <filePath>C:/Users/31339/.m2/repository/org/mockito/mockito-inline/3.12.4/mockito-inline-3.12.4.jar</filePath>
+      <isInternal>false</isInternal>
+      <dependency>
+        <coordinate>org.mockito:mockito-core:jar:3.3.3</coordinate>
+        <scope>test</scope>
+        <filePath>C:/Users/31339/.m2/repository/org/mockito/mockito-core/3.3.3/mockito-core-3.3.3.jar</filePath>
+        <isInternal>false</isInternal>
+        <relatedDependencyVersion>3.3.3</relatedDependencyVersion>
+      </dependency>
+    </dependency>
     <plugin>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-maven-plugin</artifactId>
@@ -1608,6 +1626,31 @@
       <mojo>run</mojo>
       <mojo>start</mojo>
       <mojo>stop</mojo>
+    </plugin>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-surefire-plugin</artifactId>
+      <version>2.22.2</version>
+      <goalPrefix>surefire</goalPrefix>
+      <mojo>help</mojo>
+      <mojo>test</mojo>
+    </plugin>
+    <plugin>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.8.7</version>
+      <goalPrefix>jacoco</goalPrefix>
+      <mojo>check</mojo>
+      <mojo>dump</mojo>
+      <mojo>help</mojo>
+      <mojo>instrument</mojo>
+      <mojo>merge</mojo>
+      <mojo>prepare-agent</mojo>
+      <mojo>prepare-agent-integration</mojo>
+      <mojo>report</mojo>
+      <mojo>report-aggregate</mojo>
+      <mojo>report-integration</mojo>
+      <mojo>restore-instrumented-classes</mojo>
     </plugin>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>
@@ -1644,14 +1687,6 @@
       <mojo>compile</mojo>
       <mojo>help</mojo>
       <mojo>testCompile</mojo>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <version>2.22.2</version>
-      <goalPrefix>surefire</goalPrefix>
-      <mojo>help</mojo>
-      <mojo>test</mojo>
     </plugin>
     <plugin>
       <groupId>org.apache.maven.plugins</groupId>

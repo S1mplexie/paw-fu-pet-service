@@ -17,4 +17,5 @@ public class AiChatResponse {
     private String question;
     private String answer;
     private Long timestamp;
+    private Integer remainingCount;
 }

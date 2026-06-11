@@ -178,6 +178,17 @@
         <subDependency>io.lettuce:lettuce-core:5.3.7.RELEASE</subDependency>
       </dependency>
       <dependency>
+        <group>org.apache.commons</group>
+        <name>commons-pool2</name>
+        <version>2.8.1</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar</absolutePath>
+        <targetId>org.apache.commons:commons-pool2:2.8.1</targetId>
+        <scopes>COMPILE,RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>false</transitive>
+        <implicit>false</implicit>
+      </dependency>
+      <dependency>
         <group>io.minio</group>
         <name>minio</name>
         <version>8.3.0</version>
@@ -1870,6 +1881,17 @@
         <subDependency>io.lettuce:lettuce-core:5.3.7.RELEASE</subDependency>
       </dependency>
       <dependency>
+        <group>org.apache.commons</group>
+        <name>commons-pool2</name>
+        <version>2.8.1</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/apache/commons/commons-pool2/2.8.1/commons-pool2-2.8.1.jar</absolutePath>
+        <targetId>org.apache.commons:commons-pool2:2.8.1</targetId>
+        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>false</transitive>
+        <implicit>false</implicit>
+      </dependency>
+      <dependency>
         <group>io.minio</group>
         <name>minio</name>
         <version>8.3.0</version>
@@ -1968,6 +1990,18 @@
         <subDependency>org.springframework:spring-core:5.2.15.RELEASE</subDependency>
         <subDependency>org.springframework:spring-test:5.2.15.RELEASE</subDependency>
         <subDependency>org.xmlunit:xmlunit-core:2.7.0</subDependency>
+      </dependency>
+      <dependency>
+        <group>org.mockito</group>
+        <name>mockito-inline</name>
+        <version>3.12.4</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/mockito/mockito-inline/3.12.4/mockito-inline-3.12.4.jar</absolutePath>
+        <targetId>org.mockito:mockito-inline:3.12.4</targetId>
+        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>false</transitive>
+        <implicit>false</implicit>
+        <subDependency>org.mockito:mockito-core:3.3.3</subDependency>
       </dependency>
       <dependency>
         <group>org.springframework.boot</group>
@@ -2480,6 +2514,17 @@
         <version>2.7.0</version>
         <absolutePath>$M2_REPOSITORY_PATH$/org/xmlunit/xmlunit-core/2.7.0/xmlunit-core-2.7.0.jar</absolutePath>
         <targetId>org.xmlunit:xmlunit-core:2.7.0</targetId>
+        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
+        <internal>false</internal>
+        <transitive>true</transitive>
+        <implicit>false</implicit>
+      </dependency>
+      <dependency>
+        <group>org.mockito</group>
+        <name>mockito-core</name>
+        <version>3.3.3</version>
+        <absolutePath>$M2_REPOSITORY_PATH$/org/mockito/mockito-core/3.3.3/mockito-core-3.3.3.jar</absolutePath>
+        <targetId>org.mockito:mockito-core:3.3.3</targetId>
         <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
         <internal>false</internal>
         <transitive>true</transitive>
@@ -3176,17 +3221,6 @@
         <version>2.6</version>
         <absolutePath>$M2_REPOSITORY_PATH$/org/objenesis/objenesis/2.6/objenesis-2.6.jar</absolutePath>
         <targetId>org.objenesis:objenesis:2.6</targetId>
-        <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
-        <internal>false</internal>
-        <transitive>true</transitive>
-        <implicit>false</implicit>
-      </dependency>
-      <dependency>
-        <group>org.mockito</group>
-        <name>mockito-core</name>
-        <version>3.3.3</version>
-        <absolutePath>$M2_REPOSITORY_PATH$/org/mockito/mockito-core/3.3.3/mockito-core-3.3.3.jar</absolutePath>
-        <targetId>org.mockito:mockito-core:3.3.3</targetId>
         <scopes>TEST_COMPILE,TEST_RUNTIME</scopes>
         <internal>false</internal>
         <transitive>true</transitive>

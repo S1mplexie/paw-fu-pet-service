@@ -14,3 +14,10 @@ export function getQuickQuestions() {
     method: 'get'
   })
 }
+
+export function getRemainingCount() {
+  return request({
+    url: '/ai/remaining-count',
+    method: 'get'
+  })
+}

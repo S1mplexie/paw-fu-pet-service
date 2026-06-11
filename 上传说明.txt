@@ -1,0 +1,135 @@
+请选择以下任一方法上传脚本到服务器：
+
+═════════════════════════════════════════════════════════════
+方法1：直接复制到服务器执行（推荐）
+═════════════════════════════════════════════════════════════
+
+1. SSH连接服务器：
+   ssh root@43.136.175.87
+   密码：2395@xxa
+
+2. 在服务器上执行以下命令创建脚本：
+
+cat > /opt/deploy_update.sh << 'EOF'
+#!/bin/bash
+# Paw福宠物平台 - 完整部署更新脚本
+# 用于获取最新代码并重新部署
+
+set -e
+
+echo "=== 开始部署更新 ==="
+echo "时间: $(date)"
+
+# 1. 备份关键文件
+echo "[1/7] 备份配置文件和上传目录..."
+mkdir -p /opt/pawfu-backups
+tar -czf /opt/pawfu-backups/uploads-$(date +%Y%m%d%H%M%S).tar.gz -C /opt/pawfu uploads
+cp /opt/pawfu/src/main/resources/application.yml /opt/pawfu-backups/application.yml.bak
+echo "✓ 备份完成"
+
+# 2. 删除旧项目并完整克隆
+echo "[2/7] 删除旧项目并完整克隆最新代码..."
+cd /opt
+rm -rf pawfu
+git clone https://gitclone.com/github.com/S1mplexie/paw-fu-pet-service.git pawfu
+cd pawfu
+echo "✓ 克隆完成，当前版本:"
+git log -1 --oneline
+
+# 3. 恢复配置文件
+echo "[3/7] 恢复配置文件..."
+cp /opt/pawfu-backups/application.yml.bak src/main/resources/application.yml
+echo "✓ 配置文件已恢复"
+
+# 4. 验证并修复关键配置
+echo "[4/7] 验证并修复关键配置..."
+# 数据库配置
+sed -i 's#jdbc:mysql://localhost:3306/pet_adoption#jdbc:mysql://localhost:3306/pawfu#g' src/main/resources/application.yml
+sed -i 's#password: root123456#password: pawfu2024secure#g' src/main/resources/application.yml
+# 图片URL前缀
+sed -i 's#url-prefix: http://localhost:8080/api/uploads#url-prefix: /api/uploads#g' src/main/resources/application.yml
+# DeepSeek API Key
+sed -i 's#api-key: your-deepseek-api-key#api-key: sk-3255b4516def43a4a99b7d33d889297c#g' src/main/resources/application.yml
+echo "✓ 配置修复完成"
+
+# 5. 构建前端
+echo "[5/7] 构建前端..."
+cd frontend
+npm install --silent
+npm run build
+echo "✓ 前端构建完成"
+
+# 6. 部署前端到Nginx
+echo "[6/7] 部署前端到Nginx..."
+rm -rf /var/www/html/*
+cp -r dist/* /var/www/html/
+echo "✓ 前端部署完成"
+
+# 7. 重启后端服务
+echo "[7/7] 重启后端服务..."
+cd /opt/pawfu
+
+# 杀死旧的Spring Boot进程
+pkill -f "spring-boot:run" || true
+sleep 3
+
+# 清理并重新编译
+rm -rf target
+
+# 启动后端
+nohup mvn spring-boot:run > backend.log 2>&1 &
+echo "✓ 后端启动中..."
+
+# 等待后端启动
+echo "等待后端启动（最多120秒）..."
+for i in {1..24}; do
+    sleep 5
+    if curl -s http://localhost:8080/api/pets/list > /dev/null 2>&1; then
+        echo "✓ 后端启动成功！"
+        break
+    fi
+    echo "  等待中... ($((i*5))秒)"
+done
+
+echo ""
+echo "=== 部署完成 ==="
+echo "前端: http://43.136.175.87"
+echo "管理平台: http://43.136.175.87/admin"
+echo "API测试: curl http://43.136.175.87/api/pets/list"
+echo "日志: /opt/pawfu/backend.log"
+EOF
+
+chmod +x /opt/deploy_update.sh
+
+3. 执行部署脚本：
+   /opt/deploy_update.sh
+
+
+═════════════════════════════════════════════════════════════
+方法2：使用Git Bash上传
+═════════════════════════════════════════════════════════════
+
+在本地Git Bash执行：
+
+# 上传脚本
+scp deploy_update.sh root@43.136.175.87:/opt/
+（输入密码：2395@xxa）
+
+# 连接服务器并执行
+ssh root@43.136.175.87
+（输入密码：2395@xxa）
+chmod +x /opt/deploy_update.sh
+/opt/deploy_update.sh
+
+
+═════════════════════════════════════════════════════════════
+方法3：一键Base64传输（在服务器上执行）
+═════════════════════════════════════════════════════════════
+
+在服务器上执行：
+
+echo "IyEvYmluL2Jhc2gKIyBQYXfnpo/lrqDnianlubPlj7AgLSDlrozmlbTpg6jnvbLmm7TmlrDohJrmnKwKIyDnlKjkuo7ojrflj5bmnIDmlrDku6PnoIHlubbph43mlrDpg6jnvbIKCnNldCAtZQoKZWNobyAiPT09IOW8gOWni+mDqOe9suabtOaWsCA9PT0iCmVjaG8gIuaXtumXtDogJChkYXRlKSIKCiMgMS4g5aSH5Lu95YWz6ZSu5paH5Lu2CmVjaG8gIlsxLzddIOWkh+S7vemFjee9ruaWh+S7tuWSjOS4iuS8oOebruW9lS4uLiIKbWtkaXIgLXAgL29wdC9wYXdmdS1iYWNrdXBzCnRhciAtY3pmIC9vcHQvcGF3ZnUtYmFja3Vwcy91cGxvYWRzLSQoZGF0ZSArJVklbSVkJUglTSVTKS50YXIuZ3ogLUMgL29wdC9wYXdmdSB1cGxvYWRzCmNwIC9vcHQvcGF3ZnUvc3JjL21haW4vcmVzb3VyY2VzL2FwcGxpY2F0aW9uLnltbCAvb3B0L3Bhd2Z1LWJhY2t1cHMvYXBwbGljYXRpb24ueW1sLmJhawplY2hvICLinJMg5aSH5Lu95a6M5oiQIgoKIyAyLiDliKDpmaTml6fpobnnm67lubblrozmlbTlhYvpmoYKZWNobyAiWzIvN10g5Yig6Zmk5pen6aG555uu5bm25a6M5pW05YWL6ZqG5pyA5paw5Luj56CBLi4uIgpjZCAvb3B0CnJtIC1yZiBwYXdmdQpnaXQgY2xvbmUgaHR0cHM6Ly9naXRjbG9uZS5jb20vZ2l0aHViLmNvbS9TMW1wbGV4aWUvcGF3LWZ1LXBldC1zZXJ2aWNlLmdpdCBwYXdmdQpjZCBwYXdmdQplY2hvICLinJMg5YWL6ZqG5a6M5oiQ77yM5b2T5YmN54mI5pysOiIKZ2l0IGxvZyAtMSAtLW9uZWxpbmUKCiMgMy4g5oGi5aSN6YWN572u5paH5Lu2CmVjaG8gIlszLzddIOaBouWkjemFjee9ruaWh+S7ti4uLiIKY3AgL29wdC9wYXdmdS1iYWNrdXBzL2FwcGxpY2F0aW9uLnltbC5iYWsgc3JjL21haW4vcmVzb3VyY2VzL2FwcGxpY2F0aW9uLnltbAplY2hvICLinJMg6YWN572u5paH5Lu25bey5oGi5aSNIgoKIyA0LiDpqozor4Hlubbkv67lpI3lhbPplK7phY3nva4KZWNobyAiWzQvN10g6aqM6K+B5bm25L+u5aSN5YWz6ZSu6YWN572uLi4uIgojIOaVsOaNruW6k+mFjee9rgpzZWQgLWkgJ3MjamRiYzpteXNxbDovL2xvY2FsaG9zdDozMzA2L3BldF9hZG9wdGlvbiNqZGJjOm15c3FsOi8vbG9jYWxob3N0OjMzMDYvcGF3ZnUjZycgc3JjL21haW4vcmVzb3VyY2VzL2FwcGxpY2F0aW9uLnltbApzZWQgLWkgJ3MjcGFzc3dvcmQ6IHJvb3QxMjM0NTYjcGFzc3dvcmQ6IHBhd2Z1MjAyNHNlY3VyZSNnJyBzcmMvbWFpbi9yZXNvdXJjZXMvYXBwbGljYXRpb24ueW1sCiMg5Zu+54mHVVJM5YmN57yACnNlZCAtaSAncyN1cmwtcHJlZml4OiBodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL3VwbG9hZHMjdXJsLXByZWZpeDogL2FwaS91cGxvYWRzI2cnIHNyYy9tYWluL3Jlc291cmNlcy9hcHBsaWNhdGlvbi55bWwKIyBEZWVwU2VlayBBUEkgS2V5CnNlZCAtaSAncyNhcGkta2V5OiB5b3VyLWRlZXBzZWVrLWFwaS1rZXkjYXBpLWtleTogc2stMzI1NWI0NTE2ZGVmNDNhNGE5OWI3ZDMzZDg4OTI5N2MjZycgc3JjL21haW4vcmVzb3VyY2VzL2FwcGxpY2F0aW9uLnltbAplY2hvICLinJMg6YWN572u5L+u5aSN5a6M5oiQIgoKIyA1LiDmnoTlu7rliY3nq68KZWNobyAiWzUvN10g5p6E5bu65YmN56uvLi4uIgpjZCBmcm9udGVuZApucG0gaW5zdGFsbCAtLXNpbGVudApucG0gcnVuIGJ1aWxkCmVjaG8gIuKckyDliY3nq6/mnoTlu7rlrozmiJAiCgojIDYuIOmDqOe9suWJjeerr+WIsE5naW54CmVjaG8gIls2LzddIOmDqOe9suWJjeerr+WIsE5naW54Li4uIgpybSAtcmYgL3Zhci93d3cvaHRtbC8qCmNwIC1yIGRpc3QvKiAvdmFyL3d3dy9odG1sLwplY2hvICLinJMg5YmN56uv6YOo572y5a6M5oiQIgoKIyA3LiDph43lkK/lkI7nq6/mnI3liqEKZWNobyAiWzcvN10g6YeN5ZCv5ZCO56uv5pyN5YqhLi4uIgpjZCAvb3B0L3Bhd2Z1CgojIOadgOatu+aXp+eahFNwcmluZyBCb2906L+b56iLCnBraWxsIC1mICJzcHJpbmctYm9vdDpydW4iIHx8IHRydWUKc2xlZXAgMwoKIyDmuIXnkIblubbph43mlrDnvJbor5EKcm0gLXJmIHRhcmdldAoKIyDlkK/liqjlkI7nq68Kbm9odXAgbXZuIHNwcmluZy1ib290OnJ1biA+IGJhY2tlbmQubG9nIDI+JjEgJgplY2hvICLinJMg5ZCO56uv5ZCv5Yqo5LitLi4uIgoKIyDnrYnlvoXlkI7nq6/lkK/liqgKZWNobyAi562J5b6F5ZCO56uv5ZCv5Yqo77yI5pyA5aSaMTIw56eS77yJLi4uIgpmb3IgaSBpbiB7MS4uMjR9OyBkbwogICAgc2xlZXAgNQogICAgaWYgY3VybCAtcyBodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL3BldHMvbGlzdCA+IC9kZXYvbnVsbCAyPiYxOyB0aGVuCiAgICAgICAgZWNobyAi4pyTIOWQjuerr+WQr+WKqOaIkOWKn++8gSIKICAgICAgICBicmVhawogICAgZmkKICAgIGVjaG8gIiAg562J5b6F5LitLi4uICgkKChpKjUpKeenkikiCmRvbmUKCmVjaG8gIiIKZWNobyAiPT09IOmDqOe9suWujOaIkCA9PT0iCmVjaG8gIuWJjeerrzogaHR0cDovLzQzLjEzNi4xNzUuODciCmVjaG8gIueuoeeQhuW5s+WPsDogaHR0cDovLzQzLjEzNi4xNzUuODcvYWRtaW4iCmVjaG8gIkFQSea1i+ivlTogY3VybCBodHRwOi8vNDMuMTM2LjE3NS44Ny9hcGkvcGV0cy9saXN0IgplY2hvICLml6Xlv5c6IC9vcHQvcGF3ZnUvYmFja2VuZC5sb2ciCg==" | base64 -d > /opt/deploy_update.sh
+
+chmod +x /opt/deploy_update.sh
+
+/opt/deploy_update.sh
